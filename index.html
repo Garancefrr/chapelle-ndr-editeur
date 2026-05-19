@@ -1657,11 +1657,12 @@ function PhotoCropFrame(_ref) {
       startPy = p.y;
     var rect = target.getBoundingClientRect();
     var move = function move(ev) {
-      // Use frame-relative drag offsets directly so that dragging by N% of
-      // the frame width scrolls the photo by N% of its cover-cropped extent.
+      // Invert X so dragging the photo to the right reveals the right side
+      // of the photo (natural "pan into" gesture). Y keeps the existing
+      // intuition (drag down to see lower part of photo).
       var dx = (ev.clientX - startX) / rect.width * 100;
       var dy = (ev.clientY - startY) / rect.height * 100;
-      var nx = Math.max(-50, Math.min(50, startPx + dx));
+      var nx = Math.max(-50, Math.min(50, startPx - dx));
       var ny = Math.max(-50, Math.min(50, startPy + dy));
       onChange(_objectSpread(_objectSpread({}, p), {}, {
         x: nx,
