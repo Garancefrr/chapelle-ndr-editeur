@@ -166,13 +166,16 @@
     position: sticky; top: 0; background: #fff; z-index: 2;
   }
   .tab {
-    padding: 14px 4px;
+    padding: 14px 2px;
     text-align: center;
     cursor: pointer;
-    font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
     color: var(--ui-muted);
     border-bottom: 2px solid transparent;
     transition: color 0.12s, border-color 0.12s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .tab:hover { color: var(--ui-ink); }
   .tab.active { color: var(--ui-terra); border-bottom-color: var(--ui-terra); }
@@ -2298,6 +2301,1102 @@ Object.assign(window, {
   HIST_DEFAULT: HIST_DEFAULT
 });
 
+// ── direction-b-variants.jsx ────
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// Additional design variants for each Direction B post.
+// Variant "A" (the original) lives in direction-b-editable.jsx. This file
+// adds variants "B" and "C" for each of the 4 post types, all reading the
+// SAME data shape so users can swap variants without losing content.
+
+// All variants share the Be color tokens defined in direction-b-editable.jsx.
+
+// ─────────────────────────────────────────────────────────────────────
+// EVENT — Variant B · Typographic poster (no photo, terracotta dominant)
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Event_B(_ref) {
+  var _ref$data = _ref.data,
+    data = _ref$data === void 0 ? EVENT_DEFAULT : _ref$data,
+    _ref$photo = _ref.photo,
+    photo = _ref$photo === void 0 ? null : _ref$photo,
+    _ref$photoSrc = _ref.photoSrc,
+    photoSrc = _ref$photoSrc === void 0 ? null : _ref$photoSrc,
+    onPhotoChange = _ref.onPhotoChange;
+  var d = _objectSpread(_objectSpread({}, EVENT_DEFAULT), data);
+  var p = normalizePhoto(photo || photoSrc);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.terra,
+      color: Be.cream,
+      padding: "9%",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.cream,
+      opacity: 0.78,
+      letterSpacing: "0.26em"
+    }
+  }, d.kind), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "flex-start",
+      gap: 16,
+      marginTop: 22
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 180,
+      lineHeight: 0.82,
+      fontWeight: 500,
+      letterSpacing: "-0.04em",
+      color: Be.cream
+    }
+  }, d.day), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-end",
+      height: 150,
+      paddingBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 13,
+      color: Be.cream,
+      opacity: 0.88
+    }
+  }, d.dayShort), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 38,
+      lineHeight: 1,
+      fontStyle: "italic",
+      color: Be.navy,
+      marginTop: 4
+    }
+  }, d.month))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 44,
+      lineHeight: 0.96,
+      fontWeight: 500,
+      color: Be.cream
+    }
+  }, d.title1), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 28,
+      lineHeight: 1.02,
+      fontWeight: 500,
+      fontStyle: "italic",
+      color: Be.navy
+    }
+  }, d.title2)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement(PhotoCropFrame, {
+    photo: p,
+    onChange: onPhotoChange,
+    style: {
+      width: 56,
+      height: 56,
+      borderRadius: "50%",
+      border: "2px solid ".concat(Be.cream),
+      flexShrink: 0,
+      background: Be.navy
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      fontSize: 12,
+      color: Be.cream,
+      opacity: 0.95,
+      lineHeight: 1.4,
+      flex: 1
+    }
+  }, d.description)));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// EVENT — Variant C · Split (photo left half, info right half)
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Event_C(_ref2) {
+  var _ref2$data = _ref2.data,
+    data = _ref2$data === void 0 ? EVENT_DEFAULT : _ref2$data,
+    _ref2$photo = _ref2.photo,
+    photo = _ref2$photo === void 0 ? null : _ref2$photo,
+    _ref2$photoSrc = _ref2.photoSrc,
+    photoSrc = _ref2$photoSrc === void 0 ? null : _ref2$photoSrc,
+    onPhotoChange = _ref2.onPhotoChange;
+  var d = _objectSpread(_objectSpread({}, EVENT_DEFAULT), data);
+  var p = normalizePhoto(photo || photoSrc);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.cream,
+      color: Be.navy,
+      padding: 0,
+      display: "flex",
+      flexDirection: "row"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: "0 0 50%",
+      position: "relative",
+      background: Be.navy
+    }
+  }, p ? /*#__PURE__*/React.createElement(PhotoCropFrame, {
+    photo: p,
+    onChange: onPhotoChange,
+    style: {
+      position: "absolute",
+      inset: 0
+    }
+  }) : /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      position: "absolute",
+      inset: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: Be.cream,
+      fontSize: 10,
+      letterSpacing: "0.3em",
+      textTransform: "uppercase",
+      opacity: 0.5
+    }
+  }, "[\xA0photo\xA0]"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: 14,
+      top: 14,
+      bottom: 14,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 9,
+      color: Be.cream,
+      letterSpacing: "0.3em",
+      opacity: 0.9
+    }
+  }, d.dayShort), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      writingMode: "vertical-rl",
+      transform: "rotate(180deg)",
+      fontSize: 28,
+      color: Be.cream,
+      fontWeight: 500,
+      letterSpacing: "0.04em"
+    }
+  }, d.month))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      padding: "10% 9%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.terra
+    }
+  }, d.kind), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 78,
+      lineHeight: 0.86,
+      fontWeight: 500,
+      color: Be.terra,
+      letterSpacing: "-0.03em"
+    }
+  }, d.day), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 36,
+      height: 2,
+      background: Be.terra,
+      marginTop: 8,
+      marginBottom: 14
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 24,
+      lineHeight: 1,
+      fontWeight: 500,
+      color: Be.navy
+    }
+  }, d.title1), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 24,
+      lineHeight: 1.04,
+      fontWeight: 500,
+      fontStyle: "italic",
+      color: Be.terra
+    }
+  }, d.title2)), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      fontSize: 10,
+      color: Be.navy,
+      opacity: 0.7,
+      lineHeight: 1.4
+    }
+  }, d.description)));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// CHANTIER — Variant B · Hero photo + overlay caption
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Chantier_B(_ref3) {
+  var _ref3$data = _ref3.data,
+    data = _ref3$data === void 0 ? CHANTIER_DEFAULT : _ref3$data,
+    _ref3$photos = _ref3.photos,
+    photos = _ref3$photos === void 0 ? [] : _ref3$photos,
+    onPhotoChange = _ref3.onPhotoChange;
+  var d = _objectSpread(_objectSpread({}, CHANTIER_DEFAULT), data);
+  var ph = (photos || []).map(normalizePhoto).slice(0, 2);
+  var mainPhoto = ph.find(Boolean);
+  var mainIdx = ph.indexOf(mainPhoto);
+  var set = function set(i) {
+    return onPhotoChange ? function (np) {
+      return onPhotoChange(i, np);
+    } : null;
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.navy,
+      color: Be.cream,
+      position: "relative",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: "58%",
+      position: "relative",
+      background: Be.navyDeep
+    }
+  }, mainPhoto ? /*#__PURE__*/React.createElement(PhotoCropFrame, {
+    photo: mainPhoto,
+    onChange: set(mainIdx),
+    style: {
+      position: "absolute",
+      inset: 0
+    }
+  }) : /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      position: "absolute",
+      inset: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: Be.cream,
+      fontSize: 10,
+      letterSpacing: "0.3em",
+      textTransform: "uppercase",
+      opacity: 0.4
+    }
+  }, "[\xA0photo principale\xA0]"), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      position: "absolute",
+      top: 18,
+      left: 18,
+      fontSize: 10,
+      color: Be.cream,
+      background: Be.terra,
+      padding: "6px 12px"
+    }
+  }, d.kind)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      padding: "6% 8% 8%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 38,
+      lineHeight: 0.96,
+      fontWeight: 500,
+      letterSpacing: "-0.01em"
+    }
+  }, d.title1), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 22,
+      lineHeight: 1.02,
+      fontWeight: 500,
+      fontStyle: "italic",
+      color: Be.terra,
+      marginTop: 4
+    }
+  }, d.title2)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      fontSize: 9,
+      color: Be.cream,
+      opacity: 0.7,
+      display: "flex",
+      justifyContent: "space-between",
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", null, d.progressLabel), /*#__PURE__*/React.createElement("span", null, d.progressPct, "\xA0%")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 3,
+      background: "rgba(242,237,227,0.15)",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: "".concat(Math.max(0, Math.min(100, d.progressPct)), "%"),
+      background: Be.terra
+    }
+  })))));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// CHANTIER — Variant C · Big-number brutalist
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Chantier_C(_ref4) {
+  var _ref4$data = _ref4.data,
+    data = _ref4$data === void 0 ? CHANTIER_DEFAULT : _ref4$data;
+  var d = _objectSpread(_objectSpread({}, CHANTIER_DEFAULT), data);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.cream,
+      color: Be.navy,
+      padding: "8%",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.terra
+    }
+  }, d.kind), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 28,
+      lineHeight: 1,
+      fontWeight: 500
+    }
+  }, d.title1), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 22,
+      lineHeight: 1.05,
+      fontWeight: 500,
+      fontStyle: "italic",
+      color: Be.terra,
+      marginTop: 2
+    }
+  }, d.title2)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 250,
+      lineHeight: 0.84,
+      fontWeight: 500,
+      color: Be.terra,
+      letterSpacing: "-0.06em"
+    }
+  }, d.progressPct), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 60,
+      lineHeight: 1,
+      fontWeight: 500,
+      color: Be.terra,
+      alignSelf: "flex-start",
+      marginTop: 36,
+      marginLeft: 4
+    }
+  }, "%")), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.navy,
+      opacity: 0.6,
+      textAlign: "center",
+      marginBottom: 18
+    }
+  }, d.progressLabel), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 1fr",
+      gap: 12
+    }
+  }, d.stats.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        borderTop: "1px solid ".concat(Be.terra),
+        paddingTop: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "f-bodoni",
+      style: {
+        fontSize: 22,
+        lineHeight: 1,
+        fontWeight: 500
+      }
+    }, s.n), /*#__PURE__*/React.createElement("div", {
+      className: "f-inter",
+      style: {
+        fontSize: 9,
+        color: Be.navy,
+        opacity: 0.7,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        marginTop: 6
+      }
+    }, s.l));
+  })));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// PROGRAMME — Variant B · Mini calendar grid
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Programme_B(_ref5) {
+  var _ref5$data = _ref5.data,
+    data = _ref5$data === void 0 ? PROG_DEFAULT : _ref5$data;
+  var d = _objectSpread(_objectSpread({}, PROG_DEFAULT), data);
+  // Collect day numbers that have events
+  var eventDays = new Set(d.events.map(function (ev) {
+    return parseInt(ev.d, 10);
+  }).filter(function (n) {
+    return !isNaN(n);
+  }));
+  // Render a 5-row × 7-col grid; we don't know which month/year so use 1..31
+  // arrayed as if starting on Monday with a fixed offset.
+  var startOffset = 1; // visually pleasing
+  var cells = [];
+  for (var i = 0; i < 35; i++) {
+    var day = i - startOffset + 1;
+    cells.push(day >= 1 && day <= 31 ? day : null);
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.paper,
+      color: Be.navy,
+      padding: "8%",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.terra
+    }
+  }, d.topLabel), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "baseline",
+      justifyContent: "space-between",
+      marginTop: 6
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 56,
+      lineHeight: 0.88,
+      fontWeight: 500,
+      letterSpacing: "-0.02em"
+    }
+  }, d.monthName), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      fontSize: 10,
+      color: Be.navy,
+      opacity: 0.6,
+      letterSpacing: "0.18em",
+      textTransform: "uppercase"
+    }
+  }, d.events.length, " rendez-vous")), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 14,
+      fontStyle: "italic",
+      color: Be.terra,
+      marginTop: 4
+    }
+  }, d.subtitle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      display: "grid",
+      gridTemplateColumns: "repeat(7, 1fr)",
+      gap: 3,
+      padding: 12,
+      border: "1px solid ".concat(Be.terra, "40"),
+      width: "92%",
+      margin: "16px auto 0"
+    }
+  }, ["L", "M", "M", "J", "V", "S", "D"].map(function (d, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: "h" + i,
+      className: "f-inter label",
+      style: {
+        fontSize: 9,
+        color: Be.terra,
+        textAlign: "center",
+        padding: "3px 0",
+        letterSpacing: "0.16em"
+      }
+    }, d);
+  }), cells.map(function (day, i) {
+    if (day === null) return /*#__PURE__*/React.createElement("div", {
+      key: "c" + i
+    });
+    var has = eventDays.has(day);
+    return /*#__PURE__*/React.createElement("div", {
+      key: "c" + i,
+      style: {
+        aspectRatio: "1 / 1",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "f-bodoni",
+      style: {
+        fontSize: 13,
+        fontWeight: has ? 500 : 400,
+        color: has ? Be.cream : Be.navy,
+        opacity: has ? 1 : 0.55,
+        background: has ? Be.terra : "transparent",
+        borderRadius: "50%",
+        width: 24,
+        height: 24,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    }, day));
+  })), function () {
+    var twoCol = d.events.length > 4;
+    var EventRow = function EventRow(_ref6) {
+      var ev = _ref6.ev,
+        i = _ref6.i;
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: {
+          display: "flex",
+          alignItems: "baseline",
+          gap: 10
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "f-bodoni",
+        style: {
+          fontSize: 13,
+          fontWeight: 500,
+          color: Be.terra,
+          width: 20,
+          lineHeight: 1,
+          flexShrink: 0
+        }
+      }, ev.d), /*#__PURE__*/React.createElement("div", {
+        className: "f-bodoni",
+        style: {
+          fontSize: 11,
+          fontStyle: "italic",
+          color: Be.navy,
+          flex: 1,
+          minWidth: 0,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap"
+        }
+      }, ev.title), /*#__PURE__*/React.createElement("div", {
+        className: "f-inter",
+        style: {
+          fontSize: 9,
+          color: Be.navy,
+          opacity: 0.6,
+          whiteSpace: "nowrap",
+          flexShrink: 0
+        }
+      }, ev.time));
+    };
+    return /*#__PURE__*/React.createElement("div", {
+      style: _objectSpread({
+        marginTop: 14,
+        flex: 1,
+        overflow: "hidden",
+        display: twoCol ? "grid" : "flex"
+      }, twoCol ? {
+        gridTemplateColumns: "1fr 1fr",
+        columnGap: 20,
+        rowGap: 7,
+        alignContent: "start"
+      } : {
+        flexDirection: "column",
+        gap: 6
+      })
+    }, d.events.map(function (ev, i) {
+      return /*#__PURE__*/React.createElement(EventRow, {
+        key: i,
+        ev: ev,
+        i: i
+      });
+    }));
+  }(), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      marginTop: 8,
+      fontSize: 9,
+      color: Be.navy,
+      opacity: 0.55,
+      letterSpacing: "0.22em",
+      textTransform: "uppercase",
+      display: "flex",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, d.footerL), /*#__PURE__*/React.createElement("span", null, d.footerR)));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// PROGRAMME — Variant C · Vertical timeline on navy
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Programme_C(_ref7) {
+  var _ref7$data = _ref7.data,
+    data = _ref7$data === void 0 ? PROG_DEFAULT : _ref7$data;
+  var d = _objectSpread(_objectSpread({}, PROG_DEFAULT), data);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.navy,
+      color: Be.cream,
+      padding: "8%",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.terra
+    }
+  }, d.topLabel), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 64,
+      lineHeight: 0.88,
+      fontWeight: 500,
+      marginTop: 6,
+      letterSpacing: "-0.02em",
+      color: Be.cream
+    }
+  }, d.monthName), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 18,
+      lineHeight: 1,
+      fontStyle: "italic",
+      color: Be.terra,
+      marginTop: 4
+    }
+  }, d.subtitle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 22,
+      flex: 1,
+      position: "relative",
+      paddingLeft: 36
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: 13,
+      top: 6,
+      bottom: 6,
+      width: 1,
+      background: Be.terra,
+      opacity: 0.6
+    }
+  }), d.events.map(function (ev, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 18,
+        paddingTop: 10,
+        paddingBottom: 10,
+        position: "relative"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: -26,
+        top: 16,
+        width: 11,
+        height: 11,
+        borderRadius: "50%",
+        background: Be.terra,
+        border: "2px solid ".concat(Be.navy)
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "f-bodoni",
+      style: {
+        fontSize: 22,
+        fontWeight: 500,
+        color: Be.terra,
+        width: 32,
+        lineHeight: 1.1
+      }
+    }, ev.d), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "f-inter label",
+      style: {
+        fontSize: 8,
+        color: Be.cream,
+        opacity: 0.65
+      }
+    }, ev.kind, " \xB7 ", ev.time), /*#__PURE__*/React.createElement("div", {
+      className: "f-bodoni",
+      style: {
+        fontSize: 14,
+        fontStyle: "italic",
+        marginTop: 2,
+        color: Be.cream,
+        lineHeight: 1.2
+      }
+    }, ev.title)));
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      marginTop: 14,
+      fontSize: 9,
+      color: Be.cream,
+      opacity: 0.5,
+      letterSpacing: "0.22em",
+      textTransform: "uppercase",
+      display: "flex",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, d.footerL), /*#__PURE__*/React.createElement("span", null, d.footerR)));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// HISTOIRE — Variant B · Manuscript drop-cap
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Histoire_B(_ref8) {
+  var _ref8$data = _ref8.data,
+    data = _ref8$data === void 0 ? HIST_DEFAULT : _ref8$data;
+  var d = _objectSpread(_objectSpread({}, HIST_DEFAULT), data);
+  // First letter of mainText becomes the drop cap
+  var first = (d.mainText || "").trim().charAt(0) || "—";
+  var rest = (d.mainText || "").trim().slice(1);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.paper,
+      color: Be.navy,
+      padding: "10%",
+      display: "flex",
+      flexDirection: "column",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 22,
+      border: "1px solid ".concat(Be.terra, "55"),
+      pointerEvents: "none"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 28,
+      border: "0.5px solid ".concat(Be.terra, "33"),
+      pointerEvents: "none"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.terra,
+      textAlign: "center",
+      letterSpacing: "0.34em"
+    }
+  }, d.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      marginBottom: 18,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 36,
+      height: 1,
+      background: Be.terra,
+      opacity: 0.6
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 14,
+      fontStyle: "italic",
+      color: Be.terra,
+      fontWeight: 500
+    }
+  }, d.year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 36,
+      height: 1,
+      background: Be.terra,
+      opacity: 0.6
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      display: "flex",
+      alignItems: "flex-start",
+      gap: 12,
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 130,
+      lineHeight: 0.78,
+      fontWeight: 500,
+      color: Be.terra,
+      letterSpacing: "-0.04em",
+      flexShrink: 0
+    }
+  }, first), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 17,
+      lineHeight: 1.35,
+      fontStyle: "italic",
+      color: Be.navy,
+      marginTop: 12
+    }
+  }, rest)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      paddingTop: 14,
+      borderTop: "1px solid ".concat(Be.terra, "40")
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      fontSize: 11,
+      color: Be.navy,
+      opacity: 0.75,
+      lineHeight: 1.45
+    }
+  }, d.description), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      marginTop: 14,
+      fontSize: 9,
+      color: Be.navy,
+      opacity: 0.5,
+      letterSpacing: "0.26em",
+      textTransform: "uppercase",
+      display: "flex",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, d.footerL), /*#__PURE__*/React.createElement("span", null, d.footerR))));
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// HISTOIRE — Variant C · Photo-led with overlay year
+// ─────────────────────────────────────────────────────────────────────
+function PostB_Histoire_C(_ref9) {
+  var _ref9$data = _ref9.data,
+    data = _ref9$data === void 0 ? HIST_DEFAULT : _ref9$data,
+    _ref9$photo = _ref9.photo,
+    photo = _ref9$photo === void 0 ? null : _ref9$photo,
+    onPhotoChange = _ref9.onPhotoChange;
+  var d = _objectSpread(_objectSpread({}, HIST_DEFAULT), data);
+  var p = normalizePhoto(photo);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ig-board",
+    style: {
+      background: Be.navyDeep,
+      color: Be.cream,
+      position: "relative",
+      display: "flex",
+      flexDirection: "column"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0
+    }
+  }, p ? /*#__PURE__*/React.createElement(PhotoCropFrame, {
+    photo: p,
+    onChange: onPhotoChange,
+    style: {
+      position: "absolute",
+      inset: 0
+    }
+  }) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      background: Be.navyDeep,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      color: Be.cream,
+      fontSize: 10,
+      letterSpacing: "0.3em",
+      textTransform: "uppercase",
+      opacity: 0.4
+    }
+  }, "[\xA0photo de fond facultative\xA0]")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      background: "linear-gradient(180deg, rgba(8,19,38,0.5) 0%, rgba(8,19,38,0.85) 70%, rgba(8,19,38,0.95) 100%)"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      padding: "9%",
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "f-inter label",
+    style: {
+      fontSize: 10,
+      color: Be.terra
+    }
+  }, d.label), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 200,
+      lineHeight: 0.82,
+      fontWeight: 500,
+      letterSpacing: "-0.04em",
+      color: Be.terra
+    }
+  }, d.year), /*#__PURE__*/React.createElement("div", {
+    className: "f-bodoni",
+    style: {
+      fontSize: 22,
+      lineHeight: 1.18,
+      fontStyle: "italic",
+      color: Be.cream,
+      marginTop: 10
+    }
+  }, d.mainText)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 40,
+      height: 2,
+      background: Be.terra,
+      marginBottom: 12
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      fontSize: 11,
+      color: Be.cream,
+      opacity: 0.85,
+      lineHeight: 1.45
+    }
+  }, d.description), /*#__PURE__*/React.createElement("div", {
+    className: "f-inter",
+    style: {
+      marginTop: 14,
+      fontSize: 9,
+      color: Be.cream,
+      opacity: 0.55,
+      letterSpacing: "0.26em",
+      textTransform: "uppercase",
+      display: "flex",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, d.footerL), /*#__PURE__*/React.createElement("span", null, d.footerR)))));
+}
+Object.assign(window, {
+  PostB_Event_B: PostB_Event_B,
+  PostB_Event_C: PostB_Event_C,
+  PostB_Chantier_B: PostB_Chantier_B,
+  PostB_Chantier_C: PostB_Chantier_C,
+  PostB_Programme_B: PostB_Programme_B,
+  PostB_Programme_C: PostB_Programme_C,
+  PostB_Histoire_B: PostB_Histoire_B,
+  PostB_Histoire_C: PostB_Histoire_C
+});
+
 // ── editor.jsx ────
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
@@ -2335,6 +3434,8 @@ var _React = React,
   useRef = _React.useRef;
 
 // ── Post catalogue ────────────────────────────────────────────────────
+// Each post type has 3 design variants (A/B/C). User picks via radio at top
+// of each form; the choice is stored in `state[postKey].variant`.
 var POSTS = [{
   key: "event",
   name: "Événement",
@@ -2342,7 +3443,16 @@ var POSTS = [{
   h: 1080,
   srcW: 480,
   srcH: 480,
-  Comp: PostB_Event_E,
+  variants: {
+    A: PostB_Event_E,
+    B: PostB_Event_B,
+    C: PostB_Event_C
+  },
+  variantLabels: {
+    A: "Éditorial",
+    B: "Affiche typo",
+    C: "Split photo"
+  },
   initial: EVENT_DEFAULT,
   hasPhoto: true
 }, {
@@ -2352,7 +3462,16 @@ var POSTS = [{
   h: 1080,
   srcW: 480,
   srcH: 480,
-  Comp: PostB_Chantier_E,
+  variants: {
+    A: PostB_Chantier_E,
+    B: PostB_Chantier_B,
+    C: PostB_Chantier_C
+  },
+  variantLabels: {
+    A: "Rapport",
+    B: "Photo hero",
+    C: "Chiffre clé"
+  },
   initial: CHANTIER_DEFAULT,
   hasPhotos: true
 }, {
@@ -2362,7 +3481,16 @@ var POSTS = [{
   h: 1350,
   srcW: 480,
   srcH: 600,
-  Comp: PostB_Programme_E,
+  variants: {
+    A: PostB_Programme_E,
+    B: PostB_Programme_B,
+    C: PostB_Programme_C
+  },
+  variantLabels: {
+    A: "Liste",
+    B: "Calendrier",
+    C: "Timeline"
+  },
   initial: PROG_DEFAULT
 }, {
   key: "hist",
@@ -2371,9 +3499,24 @@ var POSTS = [{
   h: 1080,
   srcW: 480,
   srcH: 480,
-  Comp: PostB_Histoire_E,
-  initial: HIST_DEFAULT
+  variants: {
+    A: PostB_Histoire_E,
+    B: PostB_Histoire_B,
+    C: PostB_Histoire_C
+  },
+  variantLabels: {
+    A: "Citation",
+    B: "Manuscrit",
+    C: "Photo overlay"
+  },
+  initial: HIST_DEFAULT,
+  hasPhoto: true
 }];
+
+// Pick the right component for a post given its variant.
+function compFor(post, variant) {
+  return post.variants && post.variants[variant] || post.variants.A;
+}
 var STORAGE_KEY = "chapelle-editor-direction-b-v1";
 
 // ── Font embedding ───────────────────────────────────────────────────
@@ -2433,7 +3576,7 @@ function _preloadFonts() {
           document.getElementById("loading-msg").textContent = "Chargement des polices…";
           _context3.n = 1;
           return Promise.all(FONT_FILES.map(/*#__PURE__*/function () {
-            var _ref13 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(f) {
+            var _ref14 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(f) {
               var r, ab, bytes, bin, i, b64, _t;
               return _regenerator().w(function (_context2) {
                 while (1) switch (_context2.p = _context2.n) {
@@ -2467,7 +3610,7 @@ function _preloadFonts() {
               }, _callee2, null, [[0, 4]]);
             }));
             return function (_x3) {
-              return _ref13.apply(this, arguments);
+              return _ref14.apply(this, arguments);
             };
           }()));
         case 1:
@@ -2513,7 +3656,9 @@ function makeInitialState() {
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var p = _step.value;
-      s[p.key] = structuredClone(p.initial);
+      s[p.key] = _objectSpread(_objectSpread({}, structuredClone(p.initial)), {}, {
+        variant: "A"
+      });
     }
   } catch (err) {
     _iterator.e(err);
@@ -2603,12 +3748,72 @@ function CharCounter(_ref4) {
 }
 
 // ── Forms per post type ──────────────────────────────────────────────
-function EventForm(_ref5) {
-  var data = _ref5.data,
-    photo = _ref5.photo,
-    set = _ref5.set,
-    setPhoto = _ref5.setPhoto;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+// Variant picker shown at the top of every post form.
+function VariantPicker(_ref5) {
+  var post = _ref5.post,
+    current = _ref5.current,
+    onPick = _ref5.onPick;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3, 1fr)",
+      gap: 6,
+      marginBottom: 4
+    }
+  }, ["A", "B", "C"].map(function (v) {
+    var _post$variantLabels;
+    return /*#__PURE__*/React.createElement("button", {
+      key: v,
+      onClick: function onClick() {
+        return onPick(v);
+      },
+      style: {
+        border: "1px solid var(--ui-line-strong)",
+        background: current === v ? "var(--ui-terra)" : "#fff",
+        color: current === v ? "#fff" : "var(--ui-ink)",
+        padding: "10px 6px",
+        fontFamily: "inherit",
+        fontSize: 11,
+        fontWeight: 600,
+        cursor: "pointer",
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        transition: "background 0.12s, color 0.12s, border-color 0.12s"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+        opacity: 0.7
+      }
+    }, "Design ", v), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        fontWeight: 500
+      }
+    }, ((_post$variantLabels = post.variantLabels) === null || _post$variantLabels === void 0 ? void 0 : _post$variantLabels[v]) || v));
+  }));
+}
+function EventForm(_ref6) {
+  var data = _ref6.data,
+    photo = _ref6.photo,
+    set = _ref6.set,
+    setPhoto = _ref6.setPhoto,
+    post = _ref6.post;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(VariantPicker, {
+    post: post,
+    current: (data === null || data === void 0 ? void 0 : data.variant) || "A",
+    onPick: function onPick(v) {
+      return set({
+        variant: v
+      });
+    }
+  }), /*#__PURE__*/React.createElement("hr", {
+    className: "sep"
+  }), /*#__PURE__*/React.createElement("div", {
     className: "section-title"
   }, "Date du badge"), /*#__PURE__*/React.createElement("div", {
     className: "field-row-3"
@@ -2695,14 +3900,14 @@ function EventForm(_ref5) {
     hint: "Glisser sur la pr\xE9visualisation pour recadrer \xB7 molette pour zoomer"
   }));
 }
-function PhotoSlot(_ref6) {
-  var photo = _ref6.photo,
-    onChange = _ref6.onChange,
-    hint = _ref6.hint,
-    _ref6$cadreAspect = _ref6.cadreAspect,
-    cadreAspect = _ref6$cadreAspect === void 0 ? 1 : _ref6$cadreAspect,
-    _ref6$adaptMode = _ref6.adaptMode,
-    adaptMode = _ref6$adaptMode === void 0 ? "cover" : _ref6$adaptMode;
+function PhotoSlot(_ref7) {
+  var photo = _ref7.photo,
+    onChange = _ref7.onChange,
+    hint = _ref7.hint,
+    _ref7$cadreAspect = _ref7.cadreAspect,
+    cadreAspect = _ref7$cadreAspect === void 0 ? 1 : _ref7$cadreAspect,
+    _ref7$adaptMode = _ref7.adaptMode,
+    adaptMode = _ref7$adaptMode === void 0 ? "cover" : _ref7$adaptMode;
   var fileRef = useRef(null);
   // Accept either a string (legacy) or the new {src, scale, x, y, fit} object
   var src = photo ? typeof photo === "string" ? photo : photo.src : null;
@@ -2830,12 +4035,13 @@ function PhotoSlot(_ref6) {
     }
   }, "Retirer"))));
 }
-function ChantierForm(_ref7) {
-  var data = _ref7.data,
-    set = _ref7.set,
-    _ref7$photos = _ref7.photos,
-    photos = _ref7$photos === void 0 ? [] : _ref7$photos,
-    setPhoto = _ref7.setPhoto;
+function ChantierForm(_ref8) {
+  var data = _ref8.data,
+    set = _ref8.set,
+    _ref8$photos = _ref8.photos,
+    photos = _ref8$photos === void 0 ? [] : _ref8$photos,
+    setPhoto = _ref8.setPhoto,
+    post = _ref8.post;
   // Aspect ratio of the cadre this photo will live in, after considering
   // whether the OTHER slot is filled. Used by PhotoSlot's "Adapter" button.
   var aspectForSlot = function aspectForSlot(i) {
@@ -2844,7 +4050,17 @@ function ChantierForm(_ref7) {
     });
     return otherHasPhoto ? 4 / 3 : 2;
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Field, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(VariantPicker, {
+    post: post,
+    current: (data === null || data === void 0 ? void 0 : data.variant) || "A",
+    onPick: function onPick(v) {
+      return set({
+        variant: v
+      });
+    }
+  }), /*#__PURE__*/React.createElement("hr", {
+    className: "sep"
+  }), /*#__PURE__*/React.createElement(Field, {
     label: "\xC9tiquette (haut)"
   }, /*#__PURE__*/React.createElement(TextInput, {
     value: data.kind,
@@ -2983,9 +4199,10 @@ function ChantierForm(_ref7) {
     })));
   }));
 }
-function ProgrammeForm(_ref8) {
-  var data = _ref8.data,
-    set = _ref8.set;
+function ProgrammeForm(_ref9) {
+  var data = _ref9.data,
+    set = _ref9.set,
+    post = _ref9.post;
   var updateEvent = function updateEvent(i, patch) {
     var events = _toConsumableArray(data.events);
     events[i] = _objectSpread(_objectSpread({}, events[i]), patch);
@@ -3060,7 +4277,17 @@ function ProgrammeForm(_ref8) {
     setDragIdx(null);
     setOverIdx(null);
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Field, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(VariantPicker, {
+    post: post,
+    current: (data === null || data === void 0 ? void 0 : data.variant) || "A",
+    onPick: function onPick(v) {
+      return set({
+        variant: v
+      });
+    }
+  }), /*#__PURE__*/React.createElement("hr", {
+    className: "sep"
+  }), /*#__PURE__*/React.createElement(Field, {
     label: "\xC9tiquette (haut)"
   }, /*#__PURE__*/React.createElement(TextInput, {
     value: data.topLabel,
@@ -3209,9 +4436,9 @@ function ProgrammeForm(_ref8) {
     }
   }))));
 }
-function SettingsForm(_ref9) {
-  var colors = _ref9.colors,
-    setColors = _ref9.setColors;
+function SettingsForm(_ref0) {
+  var colors = _ref0.colors,
+    setColors = _ref0.setColors;
   var c = _objectSpread(_objectSpread({}, DEFAULT_COLORS), colors || {});
   var update = function update(key) {
     return function (e) {
@@ -3321,10 +4548,23 @@ function SettingsForm(_ref9) {
     }
   })));
 }
-function HistoireForm(_ref0) {
-  var data = _ref0.data,
-    set = _ref0.set;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Field, {
+function HistoireForm(_ref1) {
+  var data = _ref1.data,
+    set = _ref1.set,
+    photo = _ref1.photo,
+    setPhoto = _ref1.setPhoto,
+    post = _ref1.post;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(VariantPicker, {
+    post: post,
+    current: (data === null || data === void 0 ? void 0 : data.variant) || "A",
+    onPick: function onPick(v) {
+      return set({
+        variant: v
+      });
+    }
+  }), /*#__PURE__*/React.createElement("hr", {
+    className: "sep"
+  }), /*#__PURE__*/React.createElement(Field, {
     label: "\xC9tiquette (haut)"
   }, /*#__PURE__*/React.createElement(TextInput, {
     value: data.label,
@@ -3371,6 +4611,23 @@ function HistoireForm(_ref0) {
   }), /*#__PURE__*/React.createElement(CharCounter, {
     value: data.description,
     max: 520
+  })), (data === null || data === void 0 ? void 0 : data.variant) === "C" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("hr", {
+    className: "sep"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "section-title"
+  }, "Photo de fond"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--ui-muted)",
+      marginTop: -4,
+      lineHeight: 1.4
+    }
+  }, "Appara\xEEt en arri\xE8re-plan, avec un voile sombre. Facultative."), /*#__PURE__*/React.createElement(PhotoSlot, {
+    photo: photo,
+    onChange: setPhoto,
+    cadreAspect: 1,
+    adaptMode: "cover",
+    hint: "Glisser sur la pr\xE9visualisation pour recadrer"
   })), /*#__PURE__*/React.createElement("hr", {
     className: "sep"
   }), /*#__PURE__*/React.createElement("div", {
@@ -3399,12 +4656,12 @@ function HistoireForm(_ref0) {
 }
 
 // ── Preview rendering ─────────────────────────────────────────────────
-function PreviewArea(_ref1) {
-  var _ref10, _state$post$key$photo, _state$post$key, _state$post$key2, _state$post$key3;
-  var post = _ref1.post,
-    state = _ref1.state,
-    onSetPhoto = _ref1.onSetPhoto,
-    onSetChantierPhoto = _ref1.onSetChantierPhoto;
+function PreviewArea(_ref10) {
+  var _ref11, _state$post$key$photo, _state$post$key, _state$post$key2, _state$post$key3;
+  var post = _ref10.post,
+    state = _ref10.state,
+    onSetPhoto = _ref10.onSetPhoto,
+    onSetChantierPhoto = _ref10.onSetChantierPhoto;
   var wrapRef = useRef(null);
   var _useState5 = useState(1),
     _useState6 = _slicedToArray(_useState5, 2),
@@ -3441,9 +4698,9 @@ function PreviewArea(_ref1) {
     document.getElementById("m-name").textContent = post.name;
     document.getElementById("m-dim").textContent = "".concat(post.w, "\xD7").concat(post.h, " px");
   }, [post, scale]);
-  var Comp = post.Comp;
   var data = state[post.key];
-  var photo = (_ref10 = (_state$post$key$photo = (_state$post$key = state[post.key]) === null || _state$post$key === void 0 ? void 0 : _state$post$key.photo) !== null && _state$post$key$photo !== void 0 ? _state$post$key$photo : (_state$post$key2 = state[post.key]) === null || _state$post$key2 === void 0 ? void 0 : _state$post$key2.photoSrc) !== null && _ref10 !== void 0 ? _ref10 : null;
+  var Comp = compFor(post, data === null || data === void 0 ? void 0 : data.variant);
+  var photo = (_ref11 = (_state$post$key$photo = (_state$post$key = state[post.key]) === null || _state$post$key === void 0 ? void 0 : _state$post$key.photo) !== null && _state$post$key$photo !== void 0 ? _state$post$key$photo : (_state$post$key2 = state[post.key]) === null || _state$post$key2 === void 0 ? void 0 : _state$post$key2.photoSrc) !== null && _ref11 !== void 0 ? _ref11 : null;
   var photos = ((_state$post$key3 = state[post.key]) === null || _state$post$key3 === void 0 ? void 0 : _state$post$key3.photos) || [];
   var extraProps = {};
   if (post.hasPhoto) {
@@ -3542,6 +4799,7 @@ function App() {
         var el = document.createElement("div");
         el.className = "tab" + (entry.key === state.active ? " active" : "");
         el.textContent = entry.label;
+        el.title = entry.label;
         el.onclick = function () {
           return setState(function (s) {
             return _objectSpread(_objectSpread({}, s), {}, {
@@ -3576,13 +4834,13 @@ function App() {
   }, [post, state]);
 
   // Form for current post
-  var formNode = function (_ref11, _data$photo) {
+  var formNode = function (_ref12, _data$photo) {
     if (isSettings) return /*#__PURE__*/React.createElement(SettingsForm, {
       colors: state.colors,
       setColors: setColors
     });
     var data = state[post.key];
-    var photo = (_ref11 = (_data$photo = data === null || data === void 0 ? void 0 : data.photo) !== null && _data$photo !== void 0 ? _data$photo : data === null || data === void 0 ? void 0 : data.photoSrc) !== null && _ref11 !== void 0 ? _ref11 : null;
+    var photo = (_ref12 = (_data$photo = data === null || data === void 0 ? void 0 : data.photo) !== null && _data$photo !== void 0 ? _data$photo : data === null || data === void 0 ? void 0 : data.photoSrc) !== null && _ref12 !== void 0 ? _ref12 : null;
     var photos = (data === null || data === void 0 ? void 0 : data.photos) || [];
     switch (post.key) {
       case "event":
@@ -3590,24 +4848,30 @@ function App() {
           data: data,
           photo: photo,
           set: updateActive,
-          setPhoto: updatePhoto
+          setPhoto: updatePhoto,
+          post: post
         });
       case "chantier":
         return /*#__PURE__*/React.createElement(ChantierForm, {
           data: data,
           photos: photos,
           set: updateActive,
-          setPhoto: updateChantierPhoto
+          setPhoto: updateChantierPhoto,
+          post: post
         });
       case "prog":
         return /*#__PURE__*/React.createElement(ProgrammeForm, {
           data: data,
-          set: updateActive
+          set: updateActive,
+          post: post
         });
       case "hist":
         return /*#__PURE__*/React.createElement(HistoireForm, {
           data: data,
-          set: updateActive
+          photo: photo,
+          set: updateActive,
+          setPhoto: updatePhoto,
+          post: post
         });
       default:
         return null;
@@ -3627,7 +4891,7 @@ function exportCurrentPNG(_x, _x2) {
 } // ── Boot ──────────────────────────────────────────────────────────────
 function _exportCurrentPNG() {
   _exportCurrentPNG = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(post, state) {
-    var btn, status, _ref14, _data$photo2, stage, outer, inner, scale, data, photo, photos, Comp, root, extraProps, dataUrl, a, ts, _t2;
+    var btn, status, _ref15, _data$photo2, stage, outer, inner, scale, data, photo, photos, Comp, root, extraProps, dataUrl, a, ts, _t2;
     return _regenerator().w(function (_context4) {
       while (1) switch (_context4.p = _context4.n) {
         case 0:
@@ -3647,15 +4911,14 @@ function _exportCurrentPNG() {
           outer.appendChild(inner);
           stage.appendChild(outer);
           data = state[post.key];
-          photo = (_ref14 = (_data$photo2 = data === null || data === void 0 ? void 0 : data.photo) !== null && _data$photo2 !== void 0 ? _data$photo2 : data === null || data === void 0 ? void 0 : data.photoSrc) !== null && _ref14 !== void 0 ? _ref14 : null;
+          photo = (_ref15 = (_data$photo2 = data === null || data === void 0 ? void 0 : data.photo) !== null && _data$photo2 !== void 0 ? _data$photo2 : data === null || data === void 0 ? void 0 : data.photoSrc) !== null && _ref15 !== void 0 ? _ref15 : null;
           photos = (data === null || data === void 0 ? void 0 : data.photos) || [];
-          Comp = post.Comp;
+          Comp = compFor(post, data === null || data === void 0 ? void 0 : data.variant);
           root = ReactDOM.createRoot(inner);
           extraProps = {};
           if (post.hasPhoto) extraProps.photo = photo;
           if (post.hasPhotos) extraProps.photos = photos;
           if (post.hasPhoto) extraProps.uid = "x-".concat(post.key, "-").concat(Date.now());
-          // No onPhotoChange in export — non-interactive.
           root.render(/*#__PURE__*/React.createElement(Comp, _extends({
             data: data
           }, extraProps)));
