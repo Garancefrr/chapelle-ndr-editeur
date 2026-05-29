@@ -110,7 +110,7 @@
   }
   body {
     display: grid;
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 400px 1fr;
     grid-template-rows: 60px 1fr;
     height: 100vh;
     overflow: hidden;
@@ -319,6 +319,7 @@
       <span><strong id="m-name"></strong></span>
       <span>Export : <strong id="m-dim"></strong></span>
     </div>
+    <div id="page-nav" style="display:none;gap:8px;margin-top:4px;"></div>
   </div>
 </main>
 
@@ -2110,10 +2111,25 @@ var PROG_DEFAULT = {
   footerL: "@chapellendr",
   footerR: "28 rue de Canteleu · Lille"
 };
+
+// Programme A is paginated: max 5 events per page. With more than 5 events,
+// the post becomes a multi-page carousel. `page` selects which page (0-based);
+// computeProgPages(events) gives the total page count. The header (month) is
+// shown on every page; a "1/3" indicator appears when there are 2+ pages.
+var PROG_PER_PAGE = 5;
+function computeProgPages(events) {
+  return Math.max(1, Math.ceil(((events === null || events === void 0 ? void 0 : events.length) || 0) / PROG_PER_PAGE));
+}
 function PostB_Programme_E(_ref4) {
   var _ref4$data = _ref4.data,
-    data = _ref4$data === void 0 ? PROG_DEFAULT : _ref4$data;
+    data = _ref4$data === void 0 ? PROG_DEFAULT : _ref4$data,
+    _ref4$page = _ref4.page,
+    page = _ref4$page === void 0 ? 0 : _ref4$page;
   var d = _objectSpread(_objectSpread({}, PROG_DEFAULT), data);
+  var allEvents = d.events || [];
+  var totalPages = computeProgPages(allEvents);
+  var pageIdx = Math.max(0, Math.min(page, totalPages - 1));
+  var pageEvents = allEvents.slice(pageIdx * PROG_PER_PAGE, pageIdx * PROG_PER_PAGE + PROG_PER_PAGE);
   return /*#__PURE__*/React.createElement("div", {
     className: "ig-board",
     style: {
@@ -2127,9 +2143,11 @@ function PostB_Programme_E(_ref4) {
     className: "f-inter label",
     style: {
       fontSize: 10,
-      color: Be.terra
+      color: Be.terra,
+      display: "flex",
+      justifyContent: "space-between"
     }
-  }, d.topLabel), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, d.topLabel), totalPages > 1 && /*#__PURE__*/React.createElement("span", null, pageIdx + 1, " / ", totalPages)), /*#__PURE__*/React.createElement("div", {
     className: "f-bodoni",
     style: {
       fontSize: 76,
@@ -2147,14 +2165,14 @@ function PostB_Programme_E(_ref4) {
       color: Be.terra,
       marginTop: 6
     }
-  }, d.subtitle), /*#__PURE__*/React.createElement("div", {
+  }, pageIdx === 0 ? d.subtitle : "Suite du programme"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 22,
       flex: 1,
       display: "flex",
       flexDirection: "column"
     }
-  }, d.events.map(function (ev, i) {
+  }, pageEvents.map(function (ev, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
@@ -2300,7 +2318,9 @@ Object.assign(window, {
   EVENT_DEFAULT: EVENT_DEFAULT,
   CHANTIER_DEFAULT: CHANTIER_DEFAULT,
   PROG_DEFAULT: PROG_DEFAULT,
-  HIST_DEFAULT: HIST_DEFAULT
+  HIST_DEFAULT: HIST_DEFAULT,
+  computeProgPages: computeProgPages,
+  PROG_PER_PAGE: PROG_PER_PAGE
 });
 
 // ── direction-b-variants.jsx ────
@@ -4704,6 +4724,17 @@ function PreviewArea(_ref10) {
   var Comp = compFor(post, data === null || data === void 0 ? void 0 : data.variant);
   var photo = (_ref11 = (_state$post$key$photo = (_state$post$key = state[post.key]) === null || _state$post$key === void 0 ? void 0 : _state$post$key.photo) !== null && _state$post$key$photo !== void 0 ? _state$post$key$photo : (_state$post$key2 = state[post.key]) === null || _state$post$key2 === void 0 ? void 0 : _state$post$key2.photoSrc) !== null && _ref11 !== void 0 ? _ref11 : null;
   var photos = ((_state$post$key3 = state[post.key]) === null || _state$post$key3 === void 0 ? void 0 : _state$post$key3.photos) || [];
+
+  // Programme variant A paginates at 5 events/page (Instagram carousel).
+  var isProgA = post.key === "prog" && ((data === null || data === void 0 ? void 0 : data.variant) || "A") === "A";
+  var totalPages = isProgA ? computeProgPages(data === null || data === void 0 ? void 0 : data.events) : 1;
+  var _useState7 = useState(0),
+    _useState8 = _slicedToArray(_useState7, 2),
+    progPage = _useState8[0],
+    setProgPage = _useState8[1];
+  useEffect(function () {
+    if (progPage > totalPages - 1) setProgPage(0);
+  }, [totalPages, progPage]);
   var extraProps = {};
   if (post.hasPhoto) {
     extraProps.photo = photo;
@@ -4714,6 +4745,42 @@ function PreviewArea(_ref10) {
     extraProps.photos = photos;
     extraProps.onPhotoChange = onSetChantierPhoto;
   }
+  if (isProgA) extraProps.page = progPage;
+
+  // Page navigation control under the meta line (only when 2+ pages)
+  useEffect(function () {
+    var host = document.getElementById("page-nav");
+    if (!host) return;
+    if (totalPages <= 1) {
+      host.style.display = "none";
+      host.innerHTML = "";
+      return;
+    }
+    host.style.display = "flex";
+    host.innerHTML = "";
+    var prev = document.createElement("button");
+    prev.className = "btn ghost tiny";
+    prev.textContent = "‹ Page";
+    prev.onclick = function () {
+      return setProgPage(function (p) {
+        return Math.max(0, p - 1);
+      });
+    };
+    var label = document.createElement("span");
+    label.style.cssText = "font-size:12px;color:var(--ui-muted);letter-spacing:0.1em;align-self:center;";
+    label.textContent = "Planche ".concat(progPage + 1, " / ").concat(totalPages);
+    var next = document.createElement("button");
+    next.className = "btn ghost tiny";
+    next.textContent = "Page ›";
+    next.onclick = function () {
+      return setProgPage(function (p) {
+        return Math.min(totalPages - 1, p + 1);
+      });
+    };
+    host.appendChild(prev);
+    host.appendChild(label);
+    host.appendChild(next);
+  }, [totalPages, progPage]);
   return ReactDOM.createPortal(/*#__PURE__*/React.createElement(Comp, _extends({
     data: data
   }, extraProps)), document.getElementById("stage-inner"));
@@ -4721,12 +4788,12 @@ function PreviewArea(_ref10) {
 
 // ── Main App ──────────────────────────────────────────────────────────
 function App() {
-  var _useState7 = useState(function () {
+  var _useState9 = useState(function () {
       return loadState() || makeInitialState();
     }),
-    _useState8 = _slicedToArray(_useState7, 2),
-    state = _useState8[0],
-    setState = _useState8[1];
+    _useState0 = _slicedToArray(_useState9, 2),
+    state = _useState0[0],
+    setState = _useState0[1];
   useEffect(function () {
     saveState(state);
   }, [state]);
@@ -4893,7 +4960,7 @@ function exportCurrentPNG(_x, _x2) {
 } // ── Boot ──────────────────────────────────────────────────────────────
 function _exportCurrentPNG() {
   _exportCurrentPNG = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(post, state) {
-    var btn, status, _ref15, _data$photo2, stage, outer, inner, scale, data, photo, photos, Comp, root, extraProps, dataUrl, a, ts, _t2;
+    var btn, status, data, isProgA, totalPages, ts, page, _ref15, _data$photo2, stage, outer, inner, scale, photo, photos, Comp, root, extraProps, dataUrl, a, suffix, _t2;
     return _regenerator().w(function (_context4) {
       while (1) switch (_context4.p = _context4.n) {
         case 0:
@@ -4903,6 +4970,17 @@ function _exportCurrentPNG() {
           status.textContent = "Génération du PNG…";
           status.className = "status";
           _context4.p = 1;
+          data = state[post.key]; // Programme variant A may span several carousel pages.
+          isProgA = post.key === "prog" && ((data === null || data === void 0 ? void 0 : data.variant) || "A") === "A";
+          totalPages = isProgA ? computeProgPages(data === null || data === void 0 ? void 0 : data.events) : 1;
+          ts = new Date().toISOString().slice(0, 10);
+          page = 0;
+        case 2:
+          if (!(page < totalPages)) {
+            _context4.n = 7;
+            break;
+          }
+          if (totalPages > 1) status.textContent = "G\xE9n\xE9ration ".concat(page + 1, "/").concat(totalPages, "\u2026");
           stage = document.getElementById("export-stage");
           stage.innerHTML = "";
           outer = document.createElement("div");
@@ -4912,7 +4990,6 @@ function _exportCurrentPNG() {
           inner.style.cssText = "width:".concat(post.srcW, "px;height:").concat(post.srcH, "px;transform:scale(").concat(scale, ");transform-origin:0 0;");
           outer.appendChild(inner);
           stage.appendChild(outer);
-          data = state[post.key];
           photo = (_ref15 = (_data$photo2 = data === null || data === void 0 ? void 0 : data.photo) !== null && _data$photo2 !== void 0 ? _data$photo2 : data === null || data === void 0 ? void 0 : data.photoSrc) !== null && _ref15 !== void 0 ? _ref15 : null;
           photos = (data === null || data === void 0 ? void 0 : data.photos) || [];
           Comp = compFor(post, data === null || data === void 0 ? void 0 : data.variant);
@@ -4920,52 +4997,66 @@ function _exportCurrentPNG() {
           extraProps = {};
           if (post.hasPhoto) extraProps.photo = photo;
           if (post.hasPhotos) extraProps.photos = photos;
-          if (post.hasPhoto) extraProps.uid = "x-".concat(post.key, "-").concat(Date.now());
+          if (post.hasPhoto) extraProps.uid = "x-".concat(post.key, "-").concat(page, "-").concat(Date.now());
+          if (isProgA) extraProps.page = page;
           root.render(/*#__PURE__*/React.createElement(Comp, _extends({
             data: data
           }, extraProps)));
-          _context4.n = 2;
+          _context4.n = 3;
           return new Promise(function (r) {
             return setTimeout(r, 400);
           });
-        case 2:
-          _context4.n = 3;
-          return document.fonts.ready;
         case 3:
           _context4.n = 4;
+          return document.fonts.ready;
+        case 4:
+          _context4.n = 5;
           return htmlToImage.toPng(outer, {
             width: post.w,
             height: post.h,
             pixelRatio: 1,
             cacheBust: true
           });
-        case 4:
+        case 5:
           dataUrl = _context4.v;
           a = document.createElement("a");
           a.href = dataUrl;
-          ts = new Date().toISOString().slice(0, 10);
-          a.download = "chapelle-ndr-".concat(post.key, "-").concat(ts, ".png");
+          suffix = totalPages > 1 ? "-planche".concat(page + 1) : "";
+          a.download = "chapelle-ndr-".concat(post.key).concat(suffix, "-").concat(ts, ".png");
           a.click();
           root.unmount();
           stage.innerHTML = "";
-          status.textContent = "✓ PNG téléchargé";
-          status.className = "status ok";
+          if (!(totalPages > 1)) {
+            _context4.n = 6;
+            break;
+          }
           _context4.n = 6;
+          return new Promise(function (r) {
+            return setTimeout(r, 500);
+          });
+        case 6:
+          page++;
+          _context4.n = 2;
           break;
-        case 5:
-          _context4.p = 5;
+        case 7:
+          status.textContent = totalPages > 1 ? "\u2713 ".concat(totalPages, " planches t\xE9l\xE9charg\xE9es") : "✓ PNG téléchargé";
+          status.className = "status ok";
+          _context4.n = 9;
+          break;
+        case 8:
+          _context4.p = 8;
           _t2 = _context4.v;
           console.error(_t2);
           status.textContent = "Erreur : " + (_t2.message || _t2);
           status.className = "status err";
-        case 6:
-          _context4.p = 6;
+        case 9:
+          _context4.p = 9;
           btn.disabled = false;
-          return _context4.f(6);
-        case 7:
+          return _context4.f(9);
+        case 10:
           return _context4.a(2);
       }
-    }, _callee4, null, [[1, 5, 6, 7]]);
+    }, _callee4, null, [[1, 8, 9, 10]]);
   }));
   return _exportCurrentPNG.apply(this, arguments);
 }
