@@ -1338,7 +1338,7 @@ function PostB_Chantier() {
     style: {
       marginTop: 8,
       height: 4,
-      background: "rgba(242,237,227,0.15)",
+      background: "color-mix(in srgb, var(--b-cream) 15%, transparent)",
       position: "relative"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1989,7 +1989,7 @@ function PostB_Chantier_E(_ref3) {
     style: {
       marginTop: 8,
       height: 4,
-      background: "rgba(242,237,227,0.15)",
+      background: "color-mix(in srgb, var(--b-cream) 15%, transparent)",
       position: "relative"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -2703,7 +2703,7 @@ function PostB_Chantier_B(_ref3) {
   }, /*#__PURE__*/React.createElement("span", null, d.progressLabel), /*#__PURE__*/React.createElement("span", null, d.progressPct, "\xA0%")), /*#__PURE__*/React.createElement("div", {
     style: {
       height: 3,
-      background: "rgba(242,237,227,0.15)",
+      background: "color-mix(in srgb, var(--b-cream) 15%, transparent)",
       position: "relative"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -3344,7 +3344,7 @@ function PostB_Histoire_C(_ref9) {
     style: {
       position: "absolute",
       inset: 0,
-      background: "linear-gradient(180deg, rgba(8,19,38,0.5) 0%, rgba(8,19,38,0.85) 70%, rgba(8,19,38,0.95) 100%)"
+      background: "linear-gradient(180deg, color-mix(in srgb, var(--b-navy-deep) 50%, transparent) 0%, color-mix(in srgb, var(--b-navy-deep) 85%, transparent) 70%, color-mix(in srgb, var(--b-navy-deep) 95%, transparent) 100%)"
     }
   })), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3771,7 +3771,121 @@ function CharCounter(_ref4) {
 
 // ── Forms per post type ──────────────────────────────────────────────
 // Variant picker shown at the top of every post form.
+// ── Variations aléatoires (« Nouveau visuel ») ────────────────────────
+// Un « look » = design (A/B/C) + ambiance (redistribution des couleurs de
+// la charte) + ornement (filet décoratif). Tout reste dans la palette.
+var AMBIANCES = [
+  { key: "classique", label: "Classique" },
+  { key: "nocturne", label: "Nocturne" },
+  { key: "terre", label: "Terre cuite" },
+  { key: "brique", label: "Brique" }
+];
+var ORNEMENTS = [
+  { key: "aucun", label: "Aucun" },
+  { key: "cadre", label: "Cadre" },
+  { key: "coins", label: "Coins" },
+  { key: "double", label: "Double filet" }
+];
+function lookVars(amb, colors) {
+  var c = Object.assign({}, DEFAULT_COLORS, colors || {});
+  var deep = function (col) { return "color-mix(in srgb, " + col + " 72%, #000)"; };
+  switch (amb) {
+    case "nocturne":
+      return { "--b-paper": c.navy, "--b-cream": c.navyDeep, "--b-navy": c.paper, "--b-navy-deep": c.cream, "--b-ink": c.paper };
+    case "terre":
+      return { "--b-navy": c.terraDeep, "--b-navy-deep": deep(c.terraDeep), "--b-terra": c.navy, "--b-terra-deep": c.navyDeep };
+    case "brique":
+      return { "--b-paper": c.terra, "--b-cream": c.terra, "--b-navy": c.paper, "--b-navy-deep": c.cream, "--b-terra": c.navyDeep, "--b-terra-deep": c.navy, "--b-ink": c.paper };
+    default:
+      return {};
+  }
+}
+function Ornement(_ref) {
+  var kind = _ref.kind;
+  if (!kind || kind === "aucun") return null;
+  var col = "var(--b-terra)";
+  var base = { position: "absolute", pointerEvents: "none", zIndex: 20 };
+  if (kind === "cadre") {
+    return React.createElement("div", { style: Object.assign({}, base, { inset: 14, border: "1px solid " + col, opacity: 0.7 }) });
+  }
+  if (kind === "double") {
+    return React.createElement(React.Fragment, null,
+      React.createElement("div", { style: Object.assign({}, base, { inset: 10, border: "1px solid " + col, opacity: 0.55 }) }),
+      React.createElement("div", { style: Object.assign({}, base, { inset: 15, border: "0.6px solid " + col, opacity: 0.55 }) }));
+  }
+  if (kind === "coins") {
+    var s = 22, o = 12, w = "1.5px solid " + col;
+    var corner = function (pos, bt, bl) {
+      var st = Object.assign({}, base, pos, { width: s, height: s });
+      st[bt] = w; st[bl] = w;
+      return React.createElement("div", { key: bt + bl, style: st });
+    };
+    return React.createElement(React.Fragment, null,
+      corner({ top: o, left: o }, "borderTop", "borderLeft"),
+      corner({ top: o, right: o }, "borderTop", "borderRight"),
+      corner({ bottom: o, left: o }, "borderBottom", "borderLeft"),
+      corner({ bottom: o, right: o }, "borderBottom", "borderRight"));
+  }
+  return null;
+}
+// Enveloppe un design avec l'ambiance + l'ornement du look courant.
+function renderWithLook(Comp, props, look, colors) {
+  var l = look || {};
+  return React.createElement("div", {
+    style: Object.assign({ position: "relative", width: "100%", height: "100%" }, lookVars(l.amb, colors))
+  }, React.createElement(Comp, props), React.createElement(Ornement, { kind: l.orn }));
+}
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+// Tire un nouveau look qui change au moins 2 des 3 dimensions.
+function randomLook(data) {
+  var cur = { v: (data && data.variant) || "A", a: (data && data.look && data.look.amb) || "classique", o: (data && data.look && data.look.orn) || "aucun" };
+  for (var i = 0; i < 50; i++) {
+    var n = { v: pick(["A", "B", "C"]), a: pick(AMBIANCES).key, o: pick(ORNEMENTS).key };
+    var changed = (n.v !== cur.v) + (n.a !== cur.a) + (n.o !== cur.o);
+    if (changed >= 2) return { variant: n.v, look: { amb: n.a, orn: n.o } };
+  }
+  return { variant: cur.v, look: { amb: cur.a, orn: cur.o } };
+}
+var LookCtx = React.createContext(null);
+function ChipRow(_ref) {
+  var items = _ref.items, current = _ref.current, onPick = _ref.onPick;
+  return React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 4 }
+  }, items.map(function (it) {
+    var on = current === it.key;
+    return React.createElement("button", {
+      key: it.key,
+      onClick: function () { return onPick(it.key); },
+      style: {
+        border: "1px solid " + (on ? "var(--ui-terra)" : "var(--ui-line-strong)"),
+        background: on ? "var(--ui-terra)" : "#fff",
+        color: on ? "#fff" : "var(--ui-ink)",
+        padding: "6px 2px", fontFamily: "inherit", fontSize: 10, fontWeight: 500, cursor: "pointer"
+      }
+    }, it.label);
+  }));
+}
+function LookControls() {
+  var ctx = React.useContext(LookCtx);
+  if (!ctx) return null;
+  var look = ctx.look || {};
+  var small = { fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ui-muted)", margin: "8px 0 4px" };
+  return React.createElement("div", { style: { marginTop: 6 } },
+    React.createElement("button", {
+      className: "btn terra",
+      onClick: ctx.randomize,
+      title: "Tire au hasard un design, une ambiance de couleurs et un ornement de la charte. Vos textes et photos sont conservés.",
+      style: { width: "100%", padding: "10px 8px" }
+    }, "🎲 Nouveau visuel al\xE9atoire"),
+    React.createElement("div", { style: small }, "Ambiance"),
+    React.createElement(ChipRow, { items: AMBIANCES, current: look.amb || "classique", onPick: function (k) { return ctx.setLook({ amb: k }); } }),
+    React.createElement("div", { style: small }, "Ornement"),
+    React.createElement(ChipRow, { items: ORNEMENTS, current: look.orn || "aucun", onPick: function (k) { return ctx.setLook({ orn: k }); } }));
+}
 function VariantPicker(_ref5) {
+  return React.createElement(React.Fragment, null, React.createElement(VariantPickerGrid, _ref5), React.createElement(LookControls, null));
+}
+function VariantPickerGrid(_ref5) {
   var post = _ref5.post,
     current = _ref5.current,
     onPick = _ref5.onPick;
@@ -4781,9 +4895,9 @@ function PreviewArea(_ref10) {
     host.appendChild(label);
     host.appendChild(next);
   }, [totalPages, progPage]);
-  return ReactDOM.createPortal(/*#__PURE__*/React.createElement(Comp, _extends({
+  return ReactDOM.createPortal(renderWithLook(Comp, _extends({
     data: data
-  }, extraProps)), document.getElementById("stage-inner"));
+  }, extraProps), data && data.look, state.colors), document.getElementById("stage-inner"));
 }
 
 // ── Main App ──────────────────────────────────────────────────────────
@@ -4946,7 +5060,22 @@ function App() {
         return null;
     }
   }();
-  return /*#__PURE__*/React.createElement(React.Fragment, null, ReactDOM.createPortal(formNode, document.getElementById("form")), /*#__PURE__*/React.createElement(PreviewArea, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, ReactDOM.createPortal(React.createElement(LookCtx.Provider, {
+    value: isSettings ? null : {
+      look: (state[post.key] || {}).look,
+      setLook: function (patch) {
+        setState(function (s) {
+          var cur = s[s.active] || {};
+          return _objectSpread(_objectSpread({}, s), {}, _defineProperty({}, s.active, _objectSpread(_objectSpread({}, cur), {}, {
+            look: _objectSpread(_objectSpread({}, cur.look || {}), patch)
+          })));
+        });
+      },
+      randomize: function () {
+        updateActive(randomLook(state[post.key]));
+      }
+    }
+  }, formNode), document.getElementById("form")), /*#__PURE__*/React.createElement(PreviewArea, {
     post: post,
     state: state,
     onSetPhoto: updatePhoto,
@@ -4999,9 +5128,9 @@ function _exportCurrentPNG() {
           if (post.hasPhotos) extraProps.photos = photos;
           if (post.hasPhoto) extraProps.uid = "x-".concat(post.key, "-").concat(page, "-").concat(Date.now());
           if (isProgA) extraProps.page = page;
-          root.render(/*#__PURE__*/React.createElement(Comp, _extends({
+          root.render(renderWithLook(Comp, _extends({
             data: data
-          }, extraProps)));
+          }, extraProps), data && data.look, state.colors));
           _context4.n = 3;
           return new Promise(function (r) {
             return setTimeout(r, 400);
