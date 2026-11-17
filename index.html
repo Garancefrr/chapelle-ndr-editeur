@@ -171,7 +171,7 @@
     padding: 14px 2px;
     text-align: center;
     cursor: pointer;
-    font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase;
     color: var(--ui-muted);
     border-bottom: 2px solid transparent;
     transition: color 0.12s, border-color 0.12s;
@@ -288,6 +288,77 @@
     position: fixed; top: 0; left: 0; pointer-events: none;
     z-index: -1; opacity: 0;
   }
+
+  /* ── Onglet Charte ─────────────────────────────────── */
+  #charte-host { display: none; }
+  body.charte-mode #charte-host { display: block; width: 100%; }
+  body.charte-mode .stage-wrap { display: none; }
+  body.charte-mode main { display: block; padding: 0; }
+  body.charte-mode header .actions .btn { display: none; }
+  .charte { max-width: 1040px; margin: 0 auto; padding: 0 40px 60px; color: var(--b-navy); }
+  .ch-cover { margin: 0 -40px; padding: 56px 56px 48px; display: flex; flex-direction: column; gap: 14px; }
+  .ch-label { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; font-weight: 500; }
+  .ch-title { font-family: "Bodoni Moda", serif; font-size: 54px; line-height: .95; font-weight: 500; }
+  .ch-sec { padding: 48px 0 8px; border-bottom: 1px solid var(--ui-line); scroll-margin-top: 10px; }
+  .ch-num { font-size: 11px; letter-spacing: .26em; color: var(--b-terra); font-weight: 600; }
+  .ch-h2 { font-family: "Bodoni Moda", serif; font-weight: 500; font-size: 34px; margin: 4px 0 8px; }
+  .ch-h3 { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; margin: 32px 0 12px; }
+  .ch-intro { color: var(--ui-muted); font-size: 14px; line-height: 1.5; margin: 0 0 24px; max-width: 640px; }
+  .ch-grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .ch-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .ch-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .ch-fig { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .ch-figbox { background: #fff; border: 1px solid var(--ui-line); min-height: 200px; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .ch-fig figcaption, .ch-pairtxt { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+  .ch-fig figcaption span, .ch-sub { color: var(--ui-muted); font-size: 11px; display: block; margin-top: 2px; }
+  .ch-colors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ch-color { background: #fff; border: 1px solid var(--ui-line); }
+  .ch-chip { height: 110px; display: flex; align-items: flex-end; padding: 12px 14px; font-family: "Bodoni Moda", serif; font-size: 20px; font-weight: 500; }
+  .ch-cmeta { padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+  .ch-code { font: 600 13px/1 ui-monospace, Menlo, monospace; border: 0; background: none; padding: 0; color: var(--ui-ink); cursor: pointer; }
+  .ch-code.light { font-weight: 400; font-size: 11px; color: var(--ui-muted); }
+  .ch-code:hover { color: var(--ui-terra); }
+  .ch-role { font-size: 12px; color: var(--ui-muted); line-height: 1.4; }
+  .ch-balance { display: flex; height: 56px; border: 1px solid var(--ui-line); font-size: 11px; letter-spacing: .06em; }
+  .ch-balance > div { display: flex; align-items: center; padding: 0 12px; white-space: nowrap; overflow: hidden; }
+  .ch-pairs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ch-pair { display: flex; flex-direction: column; gap: 8px; }
+  .ch-pairbox { height: 90px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; border: 1px solid var(--ui-line); }
+  .ch-badge { font-size: 11px; padding: 3px 7px; align-self: flex-start; margin-top: 4px; }
+  .ch-badge.ok { background: #e3efe3; color: #23592b; }
+  .ch-badge.mid { background: #f6ecd9; color: #7a5410; }
+  .ch-badge.ko { background: #f6e0da; color: #8a2d1a; }
+  .ch-font { background: #fff; border: 1px solid var(--ui-line); padding: 24px; }
+  .ch-fontname { font-size: 34px; line-height: 1; }
+  .ch-fontuse { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--b-terra); font-weight: 500; margin-top: 8px; }
+  .ch-weights { font-size: 12px; color: var(--ui-muted); margin-bottom: 12px; }
+  .ch-font a { font-size: 12px; color: var(--ui-ink); }
+  .ch-table { background: #fff; border: 1px solid var(--ui-line); font-size: 12px; }
+  .ch-tr { display: grid; grid-template-columns: 1.3fr 2fr 1.1fr .9fr .8fr 1fr 1fr; gap: 12px; padding: 14px 16px; border-top: 1px solid var(--ui-line); align-items: center; }
+  .ch-th { border-top: 0; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--ui-muted); font-weight: 600; }
+  .ch-sample { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: 4px 0; }
+  .ch-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--ui-line); }
+  .ch-format { position: relative; box-sizing: border-box; flex-shrink: 0; border: 1px solid; display: flex; align-items: center; justify-content: center; font-size: 10px; letter-spacing: .08em; }
+  .ch-safe { position: absolute; inset: 8%; border: 1px dashed; }
+  .ch-note { font-size: 13px; line-height: 1.5; }
+  .ch-note p { margin: 4px 0 14px; color: var(--ui-muted); }
+  .ch-list { list-style: none; margin: 0; padding: 20px 24px; background: #fff; border: 1px solid var(--ui-line); font-size: 13px; line-height: 1.5; display: flex; flex-direction: column; gap: 8px; }
+  .ch-list li { padding-left: 24px; position: relative; }
+  .ch-list.ok li::before { content: "✓"; position: absolute; left: 0; color: #2f7a3a; font-weight: 700; }
+  .ch-list.ko li::before { content: "✕"; position: absolute; left: 0; color: #b0412a; font-weight: 700; }
+  .ch-foot { font-size: 11px; color: var(--ui-muted); letter-spacing: .04em; padding-top: 28px; text-align: center; }
+  .ch-nav { display: flex; flex-direction: column; }
+  .ch-nav a { display: flex; gap: 12px; padding: 9px 0; color: var(--ui-ink); text-decoration: none; font-size: 13px; border-bottom: 1px solid var(--ui-line); }
+  .ch-nav a span { color: var(--ui-terra); font-size: 11px; font-weight: 600; letter-spacing: .1em; min-width: 20px; }
+  .ch-nav a:hover { color: var(--ui-terra); }
+  @media (max-width: 1100px) { .ch-colors, .ch-pairs, .ch-grid3 { grid-template-columns: repeat(2, 1fr); } .ch-grid4 { grid-template-columns: repeat(2, 1fr); } .ch-tr { grid-template-columns: 1fr 1.6fr 1fr; } .ch-tr > div:nth-child(n+4) { display: none; } }
+  @media print {
+    body.charte-mode { display: block; height: auto; overflow: visible; }
+    body.charte-mode header, body.charte-mode aside { display: none !important; }
+    body.charte-mode main { overflow: visible; }
+    body.charte-mode * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .ch-sec { break-inside: avoid-page; }
+  }
 </style>
 </head>
 
@@ -321,6 +392,7 @@
     </div>
     <div id="page-nav" style="display:none;gap:8px;margin-top:4px;"></div>
   </div>
+  <div id="charte-host"></div>
 </main>
 
 <div id="export-stage"></div>
@@ -4929,6 +5001,228 @@ function HistoireForm(_ref1) {
   }))));
 }
 
+// ── Onglet « Charte » ─────────────────────────────────────────────────
+// Valeurs relevées sur les 12 designs (repère 480 px × 2,25 = visuel 1080 px).
+var CHARTE_COLORS = [
+  { key: "navy", name: "Bleu marine", role: "Couleur principale : titres, textes, fonds sombres" },
+  { key: "navyDeep", name: "Bleu marine foncé", role: "Fonds nocturnes, voiles sur photo" },
+  { key: "terra", name: "Terracotta", role: "Accent : titres en italique, étiquettes, dates, ornements" },
+  { key: "terraDeep", name: "Terracotta foncé", role: "Variante de l'accent, aplats" },
+  { key: "cream", name: "Crème", role: "Texte sur fond sombre, fonds secondaires" },
+  { key: "paper", name: "Papier", role: "Fond principal des visuels" }
+];
+var CHARTE_TYPO = [
+  { role: "Grand chiffre", ex: "1014", font: "Bodoni Moda", weight: 500, style: "normal", caps: false, size: "290 à 560 px", lh: "0,8 – 0,85", ls: "−2 % à −6 %", ls0: "-0.04em", color: "navy", where: "Date, année, pourcentage", sample: 64 },
+  { role: "Titre principal", ex: "Vespro della", font: "Bodoni Moda", weight: 500, style: "normal", caps: false, size: "50 à 100 px", lh: "0,95 – 1", ls: "0", ls0: "0", color: "navy", where: "1re ligne du titre", sample: 34 },
+  { role: "Titre, 2e ligne", ex: "Beata Vergine", font: "Bodoni Moda", weight: 500, style: "italic", caps: false, size: "50 à 72 px", lh: "≈ 1", ls: "0", ls0: "0", color: "terra", where: "Suite du titre, en italique", sample: 30 },
+  { role: "Phrase, citation", ex: "Des bergers aperçoivent une statue…", font: "Bodoni Moda", weight: 400, style: "italic", caps: false, size: "32 à 54 px", lh: "1,2 – 1,35", ls: "0", ls0: "0", color: "navy", where: "Anecdotes, accroches", sample: 20 },
+  { role: "Étiquette", ex: "Concert · 20h30", font: "Inter", weight: 500, style: "normal", caps: true, size: "20 à 23 px", lh: "normal", ls: "+16 % à +34 % (22 % type)", ls0: "0.22em", color: "terra", where: "Surtitre, type d'événement, rubrique", sample: 11 },
+  { role: "Texte courant", ex: "Ensemble Monteverdi · Entrée libre", font: "Inter", weight: 400, style: "normal", caps: false, size: "22 à 27 px", lh: "1,4", ls: "0", ls0: "0", color: "navy", where: "Description (opacité 70 – 85 %)", sample: 13 },
+  { role: "Mentions", ex: "@chapellendr · 28 rue de Canteleu", font: "Inter", weight: 400, style: "normal", caps: true, size: "20 à 23 px", lh: "normal", ls: "+16 % à +26 %", ls0: "0.2em", color: "navy", where: "Pied de page, compte, adresse", sample: 10 }
+];
+function hexRgb(hex) {
+  var h = String(hex || "").replace("#", "");
+  if (h.length === 3) h = h.split("").map(function (x) { return x + x; }).join("");
+  var n = parseInt(h, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+function lum(hex) {
+  var c = hexRgb(hex).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function contrast(a, b) {
+  var x = lum(a), y = lum(b);
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
+function CharteSection(_ref) {
+  return React.createElement("section", { id: "ch-" + _ref.id, className: "ch-sec" },
+    React.createElement("div", { className: "ch-num" }, _ref.num),
+    React.createElement("h2", { className: "ch-h2" }, _ref.title),
+    _ref.intro ? React.createElement("p", { className: "ch-intro" }, _ref.intro) : null,
+    _ref.children);
+}
+function MiniBoard(_ref) {
+  // Rend un composant de la marque dans un cadre réduit.
+  var w = _ref.w || 480, h = _ref.h || 480, k = _ref.k || 0.5;
+  return React.createElement("div", { style: { width: w * k, height: h * k, overflow: "hidden", boxShadow: "0 6px 24px rgba(15,31,61,.12)" } },
+    React.createElement("div", { style: { width: w, height: h, transform: "scale(" + k + ")", transformOrigin: "0 0" } }, _ref.children));
+}
+function CharteView(_ref) {
+  var c = Object.assign({}, DEFAULT_COLORS, _ref.colors || {});
+  var _s = React.useState(null), copied = _s[0], setCopied = _s[1];
+  var copy = function (txt) {
+    try { navigator.clipboard.writeText(txt); } catch (e) {}
+    setCopied(txt);
+    setTimeout(function () { setCopied(null); }, 1200);
+  };
+  var h = React.createElement;
+  var pairs = [
+    ["navy", "paper", "Bleu marine sur Papier"],
+    ["terra", "paper", "Terracotta sur Papier"],
+    ["cream", "navy", "Crème sur Bleu marine"],
+    ["terra", "navy", "Terracotta sur Bleu marine"],
+    ["paper", "terra", "Papier sur Terracotta"],
+    ["navyDeep", "terra", "Bleu foncé sur Terracotta"]
+  ];
+  var verdict = function (r) {
+    if (r >= 4.5) return ["Tous les textes", "ok"];
+    if (r >= 3) return ["Titres et étiquettes", "mid"];
+    return ["À éviter pour du texte", "ko"];
+  };
+  return h("div", { className: "charte" },
+    h("div", { className: "ch-cover", style: { background: c.navy, color: c.cream } },
+      h("div", { className: "ch-label", style: { color: c.terra } }, "Charte graphique · Instagram"),
+      h("div", { className: "ch-title" }, "Notre-Dame", h("br"), h("em", { style: { color: c.terra } }, "de Réconciliation")),
+      h("p", { style: { opacity: 0.75, maxWidth: 520, fontSize: 14, lineHeight: 1.5, margin: 0 } },
+        "Les règles communes à tous les visuels de la chapelle : logo, couleurs, typographies, tailles et formats. Les couleurs ci-dessous suivent l'onglet Réglages.")),
+
+    h(CharteSection, { id: "logo", num: "01", title: "Logo", intro: "La chapelle stylisée dans une arche. Trois déclinaisons, toujours dans les couleurs de la charte." },
+      h("div", { className: "ch-grid3" },
+        [["Version principale", "Sur fond clair, avec le nom", h(MiniBoard, { w: 640, h: 360, k: 0.42 }, h(LockupB))],
+         ["Avatar", "Photo de profil Instagram", h(MiniBoard, { k: 0.56, w: 480, h: 480 }, h(AvatarB))],
+         ["Version inversée", "Sur fond terracotta", h(MiniBoard, { k: 0.56, w: 480, h: 480 }, h(InverseB))]
+        ].map(function (x, i) {
+          return h("figure", { key: i, className: "ch-fig" }, h("div", { className: "ch-figbox" }, x[2]),
+            h("figcaption", null, h("strong", null, x[0]), h("span", null, x[1])));
+        }))),
+
+    h(CharteSection, { id: "couleurs", num: "02", title: "Couleurs", intro: "Six couleurs, pas une de plus. Cliquez sur un code pour le copier." },
+      h("div", { className: "ch-colors" }, CHARTE_COLORS.map(function (col) {
+        var hex = String(c[col.key]).toUpperCase();
+        var rgb = hexRgb(hex).join(", ");
+        var dark = lum(hex) < 0.3;
+        return h("div", { key: col.key, className: "ch-color" },
+          h("div", { className: "ch-chip", style: { background: hex, color: dark ? "#fff" : c.navy } },
+            h("span", null, col.name)),
+          h("div", { className: "ch-cmeta" },
+            h("button", { className: "ch-code", onClick: function () { copy(hex); } }, copied === hex ? "✓ Copié" : hex),
+            h("button", { className: "ch-code light", onClick: function () { copy("rgb(" + rgb + ")"); } }, copied === "rgb(" + rgb + ")" ? "✓ Copié" : "RVB " + rgb),
+            h("div", { className: "ch-role" }, col.role)));
+      })),
+      h("h3", { className: "ch-h3" }, "Équilibre type d'un visuel"),
+      h("div", { className: "ch-balance" },
+        h("div", { style: { flex: 60, background: c.paper } }, "Papier / Crème · 60 %"),
+        h("div", { style: { flex: 28, background: c.navy, color: c.cream } }, "Bleu marine · 28 %"),
+        h("div", { style: { flex: 12, background: c.terra, color: c.paper } }, "Accent · 12 %")),
+      h("h3", { className: "ch-h3" }, "Associations texte / fond"),
+      h("div", { className: "ch-pairs" }, pairs.map(function (p) {
+        var r = contrast(c[p[0]], c[p[1]]);
+        var v = verdict(r);
+        return h("div", { key: p[2], className: "ch-pair" },
+          h("div", { className: "ch-pairbox", style: { background: c[p[1]], color: c[p[0]] } },
+            h("span", { style: { fontFamily: "Bodoni Moda, serif", fontSize: 30, fontWeight: 500 } }, "Aa"),
+            h("span", { style: { fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", fontWeight: 500 } }, "Concert")),
+          h("div", { className: "ch-pairtxt" }, h("strong", null, p[2]),
+            h("span", { className: "ch-badge " + v[1] }, v[0] + " · " + r.toFixed(1) + ":1")));
+      }))),
+
+    h(CharteSection, { id: "typos", num: "03", title: "Typographies", intro: "Deux familles gratuites (Google Fonts, licence libre OFL) : un Didone élégant pour la voix, une linéale sobre pour l'information." },
+      h("div", { className: "ch-grid2" },
+        h("div", { className: "ch-font" },
+          h("div", { className: "ch-fontname", style: { fontFamily: "Bodoni Moda, serif", fontWeight: 500 } }, "Bodoni Moda"),
+          h("div", { className: "ch-fontuse" }, "Titres · chiffres · citations"),
+          h("div", { style: { fontFamily: "Bodoni Moda, serif", fontSize: 26, lineHeight: 1.25, margin: "14px 0" } },
+            "Aa Bb Cc Éé 0123", h("br"), h("em", null, "Aa Bb Cc Éé 0123")),
+          h("div", { className: "ch-weights" }, "Regular 400 · Regular italique · Medium 500 · Medium italique"),
+          h("a", { href: "https://fonts.google.com/specimen/Bodoni+Moda", target: "_blank", rel: "noopener" }, "Télécharger sur Google Fonts ↗")),
+        h("div", { className: "ch-font" },
+          h("div", { className: "ch-fontname", style: { fontFamily: "Inter, sans-serif", fontWeight: 600 } }, "Inter"),
+          h("div", { className: "ch-fontuse" }, "Étiquettes · textes · mentions"),
+          h("div", { style: { fontFamily: "Inter, sans-serif", fontSize: 22, lineHeight: 1.35, margin: "14px 0" } },
+            "Aa Bb Cc Éé 0123", h("br"), h("span", { style: { fontSize: 13, letterSpacing: ".22em", textTransform: "uppercase", fontWeight: 500 } }, "Étiquette · 20h30")),
+          h("div", { className: "ch-weights" }, "Regular 400 · Medium 500"),
+          h("a", { href: "https://fonts.google.com/specimen/Inter", target: "_blank", rel: "noopener" }, "Télécharger sur Google Fonts ↗")))),
+
+    h(CharteSection, { id: "tailles", num: "04", title: "Hiérarchie et tailles", intro: "Tailles pour un visuel de 1080 px de large (export Instagram). Dans Canva ou Figma, utilisez ces valeurs telles quelles sur un format 1080 × 1080." },
+      h("div", { className: "ch-table" },
+        h("div", { className: "ch-tr ch-th" }, ["Rôle", "Aperçu", "Police", "Taille", "Interligne", "Interlettrage", "Couleur"].map(function (t) { return h("div", { key: t }, t); })),
+        CHARTE_TYPO.map(function (t) {
+          return h("div", { key: t.role, className: "ch-tr" },
+            h("div", null, h("strong", null, t.role), h("span", { className: "ch-sub" }, t.where)),
+            h("div", { className: "ch-sample", style: {
+              fontFamily: t.font === "Inter" ? "Inter, sans-serif" : "Bodoni Moda, serif",
+              fontWeight: t.weight, fontStyle: t.style, fontSize: t.sample, letterSpacing: t.ls0,
+              textTransform: t.caps ? "uppercase" : "none", color: c[t.color], lineHeight: 1 } }, t.ex),
+            h("div", null, t.font, h("span", { className: "ch-sub" },
+              (t.weight === 500 ? "Medium" : "Regular") + (t.style === "italic" ? " italique" : "") + (t.caps ? " · CAPITALES" : ""))),
+            h("div", null, h("strong", null, t.size)),
+            h("div", null, t.lh),
+            h("div", null, t.ls),
+            h("div", null, h("span", { className: "ch-dot", style: { background: c[t.color] } }),
+              (CHARTE_COLORS.find(function (x) { return x.key === t.color; }) || {}).name));
+        }))),
+
+    h(CharteSection, { id: "formats", num: "05", title: "Formats et marges" },
+      h("div", { className: "ch-grid3" },
+        [["Carré", "1080 × 1080 px", "Événement · Chantier · Anecdote", 1],
+         ["Portrait 4:5", "1080 × 1350 px", "Programme (carrousel au-delà de 5 dates)", 1.25]].map(function (f) {
+          return h("figure", { key: f[0], className: "ch-fig" },
+            h("div", { className: "ch-figbox" },
+              h("div", { className: "ch-format", style: { width: 150, height: 150 * f[3], background: c.paper, borderColor: c.navy } },
+                h("div", { className: "ch-safe", style: { borderColor: c.terra } }),
+                h("span", { style: { color: c.navy } }, f[1]))),
+            h("figcaption", null, h("strong", null, f[0] + " · " + f[1]), h("span", null, f[2])));
+        }),
+        h("div", { className: "ch-note" },
+          h("strong", null, "Marges"), h("p", null, "Garder environ 8 % de marge sur les côtés, soit 86 px sur un visuel de 1080 px (pointillés terracotta ci-contre)."),
+          h("strong", null, "Export"), h("p", null, "PNG, 1080 px de large. Le bouton « Télécharger PNG » de l'éditeur le fait automatiquement.")))),
+
+    h(CharteSection, { id: "elements", num: "06", title: "Éléments graphiques", intro: "Des motifs récurrents qui signent les visuels de la chapelle." },
+      h("div", { className: "ch-grid4" },
+        h("figure", { className: "ch-fig" }, h("div", { className: "ch-figbox" },
+          h("svg", { viewBox: "0 0 100 120", width: 90, height: 108 },
+            h("path", { d: "M 4 118 L 4 52 Q 4 4 50 2 Q 96 4 96 52 L 96 118 Z", fill: c.navy }))),
+          h("figcaption", null, h("strong", null, "L'arche"), h("span", null, "Cadre des photos, rappel de la porte en ogive"))),
+        h("figure", { className: "ch-fig" }, h("div", { className: "ch-figbox" },
+          h("div", { style: { background: c.terra, color: c.cream, padding: "10px 16px", textAlign: "center" } },
+            h("div", { style: { fontSize: 9, letterSpacing: ".22em", fontWeight: 500 } }, "SAM"),
+            h("div", { style: { fontFamily: "Bodoni Moda, serif", fontSize: 40, lineHeight: 0.9, fontWeight: 500 } }, "14"),
+            h("div", { style: { fontSize: 9, letterSpacing: ".22em", fontWeight: 500 } }, "JUIN"))),
+          h("figcaption", null, h("strong", null, "Le badge date"), h("span", null, "Aplat terracotta, chiffre en Bodoni"))),
+        h("figure", { className: "ch-fig" }, h("div", { className: "ch-figbox" },
+          h("div", { style: { display: "flex", gap: 10 } }, ["cadre", "coins", "double"].map(function (k) {
+            return h("div", { key: k, style: Object.assign({ position: "relative", width: 56, height: 56, background: c.paper }, lookVars("classique", c)) },
+              h("div", { style: { transform: "scale(0.45)", transformOrigin: "0 0", width: 124, height: 124, position: "relative" } }, h(Ornement, { kind: k })));
+          }))),
+          h("figcaption", null, h("strong", null, "Les filets"), h("span", null, "Cadre, coins ou double filet, en terracotta fin"))),
+        h("figure", { className: "ch-fig" }, h("div", { className: "ch-figbox" },
+          h("div", { style: { fontSize: 13, letterSpacing: ".22em", fontWeight: 500, color: c.terra } }, "CONCERT · 20H30")),
+          h("figcaption", null, h("strong", null, "Le point médian"), h("span", null, "Sépare les informations d'une étiquette"))))),
+
+    h(CharteSection, { id: "regles", num: "07", title: "À faire, à éviter" },
+      h("div", { className: "ch-grid2" },
+        h("ul", { className: "ch-list ok" },
+          h("li", null, "Un seul accent terracotta fort par visuel (titre italique, date ou étiquette)."),
+          h("li", null, "Titres en Bodoni Moda, informations en Inter."),
+          h("li", null, "Étiquettes en capitales espacées, séparées par un point médian « · »."),
+          h("li", null, "Respecter les marges de 8 % et laisser respirer le visuel."),
+          h("li", null, "Photos recadrées dans l'arche ou en pleine page avec un voile bleu.")),
+        h("ul", { className: "ch-list ko" },
+          h("li", null, "Ajouter une autre police ou une couleur hors charte."),
+          h("li", null, "Du texte courant (description) en terracotta : réservez-le aux titres et étiquettes."),
+          h("li", null, "Mettre l'étiquette en minuscules ou le texte courant en Bodoni."),
+          h("li", null, "Déformer, recolorer hors palette ou ombrer le logo."),
+          h("li", null, "Coller du texte contre les bords du visuel.")))),
+    h("div", { className: "ch-foot" }, "Association des Amis de la Chapelle Notre-Dame de Réconciliation · 28 rue de Canteleu, 59000 Lille"));
+}
+function CharteSidebar() {
+  var items = [["logo", "Logo"], ["couleurs", "Couleurs"], ["typos", "Typographies"], ["tailles", "Hiérarchie et tailles"], ["formats", "Formats et marges"], ["elements", "Éléments graphiques"], ["regles", "À faire, à éviter"]];
+  return React.createElement(React.Fragment, null,
+    React.createElement("div", { className: "section-title" }, "Charte graphique"),
+    React.createElement("div", { style: { fontSize: 12, color: "var(--ui-muted)", lineHeight: 1.5 } },
+      "La référence pour tous les visuels de la chapelle, y compris ceux faits hors de l'éditeur (Canva, Figma, affiches)."),
+    React.createElement("hr", { className: "sep" }),
+    React.createElement("nav", { className: "ch-nav" }, items.map(function (it, i) {
+      return React.createElement("a", { key: it[0], href: "#ch-" + it[0], onClick: function (e) {
+        e.preventDefault();
+        var el = document.getElementById("ch-" + it[0]);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } }, React.createElement("span", null, "0" + (i + 1)), it[1]);
+    })),
+    React.createElement("hr", { className: "sep" }),
+    React.createElement("button", { className: "btn ghost", onClick: function () { window.print(); } }, "⎙ Imprimer / Enregistrer en PDF"));
+}
+
 // ── Preview rendering ─────────────────────────────────────────────────
 function PreviewArea(_ref10) {
   var _ref11, _state$post$key$photo, _state$post$key, _state$post$key2, _state$post$key3;
@@ -5061,6 +5355,11 @@ function App() {
     return p.key === state.active;
   }) || POSTS[0];
   var isSettings = state.active === "settings";
+  var isCharte = state.active === "charte";
+  useEffect(function () {
+    document.body.classList.toggle("charte-mode", isCharte);
+    if (isCharte) document.querySelector("main").scrollTop = 0;
+  }, [isCharte]);
   var updateActive = useCallback(function (patch) {
     setState(function (s) {
       return _objectSpread(_objectSpread({}, s), {}, _defineProperty({}, s.active, _objectSpread(_objectSpread({}, s[s.active]), patch)));
@@ -5129,16 +5428,20 @@ function App() {
     var tabs = document.getElementById("tabs");
     tabs.innerHTML = "";
     // Set grid columns to fit posts + settings
-    tabs.style.gridTemplateColumns = "repeat(".concat(POSTS.length + 1, ", 1fr)");
+    tabs.style.gridTemplateColumns = "repeat(".concat(POSTS.length + 2, ", 1fr)");
     var entries = [].concat(_toConsumableArray(POSTS.map(function (p) {
       return {
         key: p.key,
         label: p.name
       };
     })), [{
+      key: "charte",
+      label: "Charte"
+    }, {
       key: "settings",
       label: "⚙ Réglages"
     }]);
+    tabs.style.gridTemplateColumns = "1.15fr 1fr 1.2fr 1.1fr 0.9fr 1.1fr";
     var _iterator2 = _createForOfIteratorHelper(entries),
       _step2;
     try {
@@ -5183,6 +5486,7 @@ function App() {
 
   // Form for current post
   var formNode = function (_ref12, _data$photo) {
+    if (isCharte) return React.createElement(CharteSidebar, null);
     if (isSettings) return /*#__PURE__*/React.createElement(SettingsForm, {
       colors: state.colors,
       setColors: setColors
@@ -5226,7 +5530,7 @@ function App() {
     }
   }();
   return /*#__PURE__*/React.createElement(React.Fragment, null, ReactDOM.createPortal(React.createElement(LookCtx.Provider, {
-    value: isSettings ? null : {
+    value: isSettings || isCharte ? null : {
       look: (state[post.key] || {}).look,
       setLook: function (patch) {
         setState(function (s) {
@@ -5246,7 +5550,9 @@ function App() {
       }(),
       resetMoves: resetMoves
     }
-  }, formNode), document.getElementById("form")), /*#__PURE__*/React.createElement(PreviewArea, {
+  }, formNode), document.getElementById("form")), isCharte && ReactDOM.createPortal(React.createElement(CharteView, {
+    colors: state.colors
+  }), document.getElementById("charte-host")), /*#__PURE__*/React.createElement(PreviewArea, {
     post: post,
     state: state,
     onSetPhoto: updatePhoto,
