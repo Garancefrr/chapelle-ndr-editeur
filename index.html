@@ -294,7 +294,7 @@
   body.charte-mode #charte-host { display: block; width: 100%; }
   body.charte-mode .stage-wrap { display: none; }
   body.charte-mode main { display: block; padding: 0; }
-  body.charte-mode header .actions .btn { display: none; }
+  body.charte-mode header .actions .btn:not(#btn-charte) { display: none; }
   .charte { max-width: 1040px; margin: 0 auto; padding: 0 40px 60px; color: var(--b-navy); }
   .ch-cover { margin: 0 -40px; padding: 56px 56px 48px; display: flex; flex-direction: column; gap: 14px; }
   .ch-label { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; font-weight: 500; }
@@ -373,6 +373,7 @@
   <div class="title">Notre-Dame <em>de Réconciliation</em> · Éditeur Instagram</div>
   <div class="actions">
     <span class="status" id="status"></span>
+    <button class="btn ghost" id="btn-charte" title="Ouvrir la charte graphique">◧ Charte</button>
     <button class="btn ghost" id="btn-reset" title="Réinitialiser le post courant">↺ Réinitialiser</button>
     <button class="btn terra" id="btn-download">↓ Télécharger PNG</button>
   </div>
@@ -5356,9 +5357,20 @@ function App() {
   }) || POSTS[0];
   var isSettings = state.active === "settings";
   var isCharte = state.active === "charte";
+  var prevTabRef = useRef("event");
   useEffect(function () {
     document.body.classList.toggle("charte-mode", isCharte);
     if (isCharte) document.querySelector("main").scrollTop = 0;
+    var btn = document.getElementById("btn-charte");
+    btn.textContent = isCharte ? "\u2190 Retour \xE0 l\u2019\xE9diteur" : "\u25E7 Charte";
+    btn.title = isCharte ? "Revenir aux visuels" : "Ouvrir la charte graphique";
+    btn.onclick = function () {
+      setState(function (s) {
+        if (s.active === "charte") return _objectSpread(_objectSpread({}, s), {}, { active: prevTabRef.current || "event" });
+        prevTabRef.current = s.active;
+        return _objectSpread(_objectSpread({}, s), {}, { active: "charte" });
+      });
+    };
   }, [isCharte]);
   var updateActive = useCallback(function (patch) {
     setState(function (s) {
@@ -5428,20 +5440,17 @@ function App() {
     var tabs = document.getElementById("tabs");
     tabs.innerHTML = "";
     // Set grid columns to fit posts + settings
-    tabs.style.gridTemplateColumns = "repeat(".concat(POSTS.length + 2, ", 1fr)");
+    tabs.style.gridTemplateColumns = "repeat(".concat(POSTS.length + 1, ", 1fr)");
     var entries = [].concat(_toConsumableArray(POSTS.map(function (p) {
       return {
         key: p.key,
         label: p.name
       };
     })), [{
-      key: "charte",
-      label: "Charte"
-    }, {
       key: "settings",
       label: "⚙ Réglages"
     }]);
-    tabs.style.gridTemplateColumns = "1.15fr 1fr 1.2fr 1.1fr 0.9fr 1.1fr";
+    tabs.style.gridTemplateColumns = "1.15fr 1fr 1.2fr 1.1fr 1.1fr";
     var _iterator2 = _createForOfIteratorHelper(entries),
       _step2;
     try {
