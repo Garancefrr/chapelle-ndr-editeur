@@ -3828,10 +3828,137 @@ function Ornement(_ref) {
   }
   return null;
 }
-// Enveloppe un design avec l'ambiance + l'ornement du look courant.
-function renderWithLook(Comp, props, look, colors) {
+// ── Textes déplaçables ────────────────────────────────────────────────
+// Chaque élément contenant du texte est repéré par son chemin dans le DOM
+// du design (ex. "0.1.3"). Les décalages sont stockés en px « source »
+// (repère 480 px), donc identiques en aperçu et à l'export 1080 px.
+function hasOwnText(el) {
+  for (var n = el.firstChild; n; n = n.nextSibling) {
+    if (n.nodeType === 3 && n.nodeValue.trim()) return true;
+  }
+  return false;
+}
+// Petit bloc à fond coloré ne contenant que du texte (ex. badge date) :
+// il se déplace d'un seul tenant.
+function isTextChip(el) {
+  if (!el.children.length) return false;
+  for (var i = 0; i < el.children.length; i++) {
+    var c = el.children[i];
+    if (!hasOwnText(c) || c.children.length) return false;
+  }
+  var bg = getComputedStyle(el).backgroundColor;
+  return !!bg && bg !== "transparent" && !/rgba\(.*,\s*0\)$/.test(bg);
+}
+// Maj + glisser : déplace le groupe parent (titre + sous-titre…).
+function groupFor(el, board) {
+  var p = el.parentElement;
+  if (!p || p === board || !board.contains(p)) return null;
+  return p;
+}
+function tagTextNodes(root, prefix, moves) {
+  var walk = function (el, path) {
+    var kids = el.children;
+    for (var i = 0; i < kids.length; i++) {
+      var k = kids[i];
+      if (k.namespaceURI !== "http://www.w3.org/1999/xhtml") continue;
+      var p = path + "." + i;
+      if (hasOwnText(k) || isTextChip(k)) {
+        var key = prefix + p;
+        k.setAttribute("data-tk", key);
+        var m = moves && moves[key];
+        k.style.translate = m ? m[0] + "px " + m[1] + "px" : "";
+      } else {
+        walk(k, p);
+      }
+    }
+  };
+  walk(root, "0");
+  // Groupes (Maj + glisser) : clé = "g" + chemin du parent
+  root.querySelectorAll("[data-tg]").forEach(function (g) { g.style.translate = ""; g.removeAttribute("data-tg"); });
+  Object.keys(moves || {}).forEach(function (key) {
+    if (key.indexOf(prefix + "g") !== 0) return;
+    var path = key.slice(prefix.length + 1).split(".").slice(1);
+    var el = root;
+    for (var i = 0; i < path.length && el; i++) el = el.children[+path[i]];
+    if (el) { el.setAttribute("data-tg", key); el.style.translate = moves[key][0] + "px " + moves[key][1] + "px"; }
+  });
+}
+function pathOf(el, root) {
+  var parts = [];
+  while (el && el !== root) {
+    parts.unshift(Array.prototype.indexOf.call(el.parentElement.children, el));
+    el = el.parentElement;
+  }
+  return "0" + (parts.length ? "." + parts.join(".") : "");
+}
+function MovableLayer(_ref) {
+  var moves = _ref.moves, onMove = _ref.onMove, prefix = _ref.prefix || "", style = _ref.style, children = _ref.children;
+  var ref = React.useRef(null);
+  var movesRef = React.useRef(moves);
+  movesRef.current = moves;
+  React.useLayoutEffect(function () {
+    if (ref.current && ref.current.firstChild) tagTextNodes(ref.current.firstChild, prefix, moves);
+  });
+  React.useEffect(function () {
+    var host = ref.current;
+    if (!host || !onMove) return;
+    var down = function (e) {
+      if (e.button !== 0) return;
+      var el = e.target.closest && e.target.closest("[data-tk]");
+      if (!el || !host.contains(el)) return;
+      e.stopPropagation();
+      e.preventDefault();
+      var board = host.firstChild;
+      var key = el.getAttribute("data-tk");
+      if (e.shiftKey) {
+        var g = groupFor(el, board);
+        if (g) { el = g; key = prefix + "g" + pathOf(g, board); }
+      }
+      var k = board.getBoundingClientRect().width / board.offsetWidth || 1;
+      var start = (movesRef.current && movesRef.current[key]) || [0, 0];
+      var sx = e.clientX, sy = e.clientY, cur = start, moved = false;
+      host.classList.add("tk-dragging");
+      var move = function (ev) {
+        var dx = (ev.clientX - sx) / k, dy = (ev.clientY - sy) / k;
+        if (Math.abs(dx) + Math.abs(dy) > 1) moved = true;
+        cur = [Math.round(start[0] + dx), Math.round(start[1] + dy)];
+        el.style.translate = cur[0] + "px " + cur[1] + "px";
+      };
+      var up = function () {
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+        window.removeEventListener("pointercancel", up);
+        host.classList.remove("tk-dragging");
+        if (moved) onMove(key, cur);
+      };
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+      window.addEventListener("pointercancel", up);
+    };
+    host.addEventListener("pointerdown", down, true);
+    return function () { host.removeEventListener("pointerdown", down, true); };
+  }, [onMove, prefix]);
+  return React.createElement("div", { ref: ref, className: onMove ? "tk-editable" : undefined, style: style }, children);
+}
+(function () {
+  var s = document.createElement("style");
+  s.textContent = ".tk-editable [data-tk]{cursor:move}" +
+    ".tk-editable [data-tk]:hover{outline:1px dashed rgba(194,90,58,.9);outline-offset:2px}" +
+    ".tk-dragging [data-tk]:hover{outline:none}" +
+    "body.tk-shift .tk-editable [data-tk]:hover{outline:none}" +
+    "body.tk-shift .tk-editable *:has(> [data-tk]:hover){outline:1px dashed rgba(15,31,61,.8);outline-offset:3px}";
+  var sync = function (e) { document.body.classList.toggle("tk-shift", e.shiftKey); };
+  window.addEventListener("keydown", sync);
+  window.addEventListener("keyup", sync);
+  document.head.appendChild(s);
+})();
+// Enveloppe un design avec l'ambiance + l'ornement du look courant,
+// et applique les déplacements de textes (opts.moves / opts.onMove).
+function renderWithLook(Comp, props, look, colors, opts) {
   var l = look || {};
-  return React.createElement("div", {
+  var o = opts || {};
+  return React.createElement(MovableLayer, {
+    moves: o.moves, onMove: o.onMove, prefix: o.prefix,
     style: Object.assign({ position: "relative", width: "100%", height: "100%" }, lookVars(l.amb, colors))
   }, React.createElement(Comp, props), React.createElement(Ornement, { kind: l.orn }));
 }
@@ -3880,7 +4007,18 @@ function LookControls() {
     React.createElement("div", { style: small }, "Ambiance"),
     React.createElement(ChipRow, { items: AMBIANCES, current: look.amb || "classique", onPick: function (k) { return ctx.setLook({ amb: k }); } }),
     React.createElement("div", { style: small }, "Ornement"),
-    React.createElement(ChipRow, { items: ORNEMENTS, current: look.orn || "aucun", onPick: function (k) { return ctx.setLook({ orn: k }); } }));
+    React.createElement(ChipRow, { items: ORNEMENTS, current: look.orn || "aucun", onPick: function (k) { return ctx.setLook({ orn: k }); } }),
+    React.createElement("div", { style: small }, "Position des textes"),
+    React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" } },
+      React.createElement("div", { style: { flex: 1, fontSize: 11, color: "var(--ui-muted)", lineHeight: 1.35 } },
+        "Glissez un texte sur l\u2019aper\xE7u pour le d\xE9placer. Maj + glisser d\xE9place tout le bloc."),
+      React.createElement("button", {
+        className: "btn ghost tiny",
+        disabled: !ctx.hasMoves,
+        onClick: ctx.resetMoves,
+        title: "Remet tous les textes de ce design \xE0 leur place d\u2019origine",
+        style: { cursor: ctx.hasMoves ? "pointer" : "default" }
+      }, "\u21BA Remettre en place")));
 }
 function VariantPicker(_ref5) {
   return React.createElement(React.Fragment, null, React.createElement(VariantPickerGrid, _ref5), React.createElement(LookControls, null));
@@ -4797,7 +4935,8 @@ function PreviewArea(_ref10) {
   var post = _ref10.post,
     state = _ref10.state,
     onSetPhoto = _ref10.onSetPhoto,
-    onSetChantierPhoto = _ref10.onSetChantierPhoto;
+    onSetChantierPhoto = _ref10.onSetChantierPhoto,
+    onMoveText = _ref10.onMoveText;
   var wrapRef = useRef(null);
   var _useState5 = useState(1),
     _useState6 = _slicedToArray(_useState5, 2),
@@ -4897,7 +5036,11 @@ function PreviewArea(_ref10) {
   }, [totalPages, progPage]);
   return ReactDOM.createPortal(renderWithLook(Comp, _extends({
     data: data
-  }, extraProps), data && data.look, state.colors), document.getElementById("stage-inner"));
+  }, extraProps), data && data.look, state.colors, {
+    moves: data && data.moves && data.moves[(data && data.variant) || "A"],
+    onMove: onMoveText,
+    prefix: isProgA ? "p" + progPage + ":" : ""
+  }), document.getElementById("stage-inner"));
 }
 
 // ── Main App ──────────────────────────────────────────────────────────
@@ -4951,6 +5094,28 @@ function App() {
       })));
     });
   }, []);
+  // Déplacement d'un texte : moves[variant][clé] = [x, y]
+  var moveText = useCallback(function (key, xy) {
+    setState(function (s) {
+      var cur = s[s.active] || {};
+      var v = cur.variant || "A";
+      var all = _objectSpread({}, cur.moves || {});
+      all[v] = _objectSpread(_objectSpread({}, all[v] || {}), {}, _defineProperty({}, key, xy));
+      return _objectSpread(_objectSpread({}, s), {}, _defineProperty({}, s.active, _objectSpread(_objectSpread({}, cur), {}, {
+        moves: all
+      })));
+    });
+  }, []);
+  var resetMoves = function () {
+    setState(function (s) {
+      var cur = s[s.active] || {};
+      var all = _objectSpread({}, cur.moves || {});
+      delete all[cur.variant || "A"];
+      return _objectSpread(_objectSpread({}, s), {}, _defineProperty({}, s.active, _objectSpread(_objectSpread({}, cur), {}, {
+        moves: all
+      })));
+    });
+  };
   var resetActive = function resetActive() {
     if (!confirm("Réinitialiser le contenu de ce post ?")) return;
     var initial = structuredClone(post.initial);
@@ -5073,13 +5238,20 @@ function App() {
       },
       randomize: function () {
         updateActive(randomLook(state[post.key]));
-      }
+      },
+      hasMoves: function () {
+        var d = state[post.key] || {};
+        var m = d.moves && d.moves[d.variant || "A"];
+        return !!(m && Object.keys(m).length);
+      }(),
+      resetMoves: resetMoves
     }
   }, formNode), document.getElementById("form")), /*#__PURE__*/React.createElement(PreviewArea, {
     post: post,
     state: state,
     onSetPhoto: updatePhoto,
-    onSetChantierPhoto: updateChantierPhoto
+    onSetChantierPhoto: updateChantierPhoto,
+    onMoveText: moveText
   }));
 }
 
@@ -5130,7 +5302,10 @@ function _exportCurrentPNG() {
           if (isProgA) extraProps.page = page;
           root.render(renderWithLook(Comp, _extends({
             data: data
-          }, extraProps), data && data.look, state.colors));
+          }, extraProps), data && data.look, state.colors, {
+            moves: data && data.moves && data.moves[(data && data.variant) || "A"],
+            prefix: isProgA ? "p" + page + ":" : ""
+          }));
           _context4.n = 3;
           return new Promise(function (r) {
             return setTimeout(r, 400);
